@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+    {% block styles %}
+    {% endblock %}
+
+  </head>
+  <body>
+
+    {% block page_body %}
+    {% endblock %}
+
+    <script src="{% static 'main/js/jquery-2.1.3.min.js' %}"></script>
+    <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+
+    {% block scripts %}
+    {% endblock%}
+
+  </body>
+</html>

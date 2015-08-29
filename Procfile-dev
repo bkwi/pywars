@@ -1,0 +1,2 @@
+web: python manage.py runserver 0.0.0.0:8000
+worker1: celery --app=celery_app.celery:app worker --loglevel=INFO

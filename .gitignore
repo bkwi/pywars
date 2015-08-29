@@ -1,0 +1,8 @@
+*.pyc
+*.swp
+
+db.sqlite3
+temp.py
+
+pywars/config/development.py
+pywars/config/production.py

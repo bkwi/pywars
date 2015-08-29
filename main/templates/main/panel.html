@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+
+{% block page_body %}
+
+panel
+
+<p>
+  <a href="{% url 'challenge:main' %}">challenge</a>
+</p>
+
+<p>
+  <a href="{% url 'user:logout' %}">logout</a>
+</p>
+
+{% endblock %}
