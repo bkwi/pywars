@@ -8,6 +8,8 @@
   {% for ch in object_list %}
     <p>
       Challenge: {{ ch.title }}
+      <a href="{% url 'challenge:details' ch.pk %}">show</a>
+      <a href="{% url 'challenge:edit' ch.pk %}">edit</a>
     </p>
   {% empty %}
 

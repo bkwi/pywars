@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic.base import View
 
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 
 from .models import Challenge
 from .forms import ChallengeForm
@@ -35,3 +35,12 @@ class ChallengeAdd(CreateView):
     model = Challenge
     form_class = ChallengeForm
     success_url = '/challenge/list'
+
+
+class ChallengeDetails(LoginRequiredMixin, DetailView):
+    model = Challenge
+
+
+class ChallengeEdit(LoginRequiredMixin, UpdateView):
+    model = Challenge
+    form_class = ChallengeForm

@@ -14,3 +14,6 @@ class Challenge(models.Model):
 
     def __str__(self):
         return self.title[:50]
+
+    def get_absolute_url(self):
+        return '/challenge/%s' % self.pk
