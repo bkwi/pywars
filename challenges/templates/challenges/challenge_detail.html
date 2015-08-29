@@ -1,11 +1,42 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'challenges/css/codemirror.css' %}">
+{% endblock %}
+
 {% block page_body %}
 <p>
   Desc: {{ object.description|linebreaksbr}}
 </p>
 
+<p>
+<textarea id="editor"></textarea>
+</p>
+<a id="run-code" class="btn btn-primary btn-md" role="button">Run</a>
+{% endblock %}
 
 
+{% block scripts %}
+<script src="{% static 'challenges/js/codemirror.js' %}"></script>
+<script src="{% static 'challenges/js/codemirror_python.js' %}"></script>
+<script src="{% static 'challenges/js/codemirror_matchbrackets.js' %}"></script>
+
+<script type="text/javascript">
+
+  editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+    lineNumbers: true,
+    mode: "python",
+    indentUnit: 4,
+    matchBrackets: true
+  });
+
+  editor.setValue('{{ object.initial_code|escapejs }}');
+
+  var csrfToken = '{{ csrf_token }}';
+  var challendeId = '{{ object.pk }}';
+
+</script>
+
+<script src="{% static 'challenges/js/run_code.js' %}"></script>
 {% endblock %}

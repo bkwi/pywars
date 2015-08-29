@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'users',
     'challenges',
     'djcelery',
-    'celery_app'
+    'code_runner'
 )
 
 MIDDLEWARE_CLASSES = (

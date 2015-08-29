@@ -17,6 +17,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import RedirectView
 
+from code_runner.views import RunCode
+
 urlpatterns = [
     url(r'^$', RedirectView.as_view(pattern_name='main:index', permanent=True)),
     url(r'^main/', include('main.urls', namespace='main')),
@@ -26,6 +28,8 @@ urlpatterns = [
     url(r'^logout/', RedirectView.as_view(pattern_name='user:logout', permanent=True)),
 
     url(r'^challenge/', include('challenges.urls', namespace='challenge')),
+
+    url(r'^run', RunCode.as_view()),
 
     url(r'^admin/', include(admin.site.urls)),
 ]
