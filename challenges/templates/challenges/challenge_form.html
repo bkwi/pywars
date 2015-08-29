@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'challenges/css/codemirror.css' %}">
+{% endblock %}
+
+{% block page_body %}
+<p>
+  <form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Create" />
+</form>
+</p>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'challenges/js/codemirror.js' %}"></script>
+<script src="{% static 'challenges/js/codemirror_python.js' %}"></script>
+<script src="{% static 'challenges/js/codemirror_matchbrackets.js' %}"></script>
+
+<script type="text/javascript">
+  // init editor fields
+  var elementsNames = ['description',' initial_code', 'solution', 'tests']
+
+  jQuery.each(elementsNames, function() {
+    CodeMirror.fromTextArea($('textarea[name=' + this + ']')[0], {
+        lineNumbers: true,
+        mode: "python",
+        indentUnit: 4,
+        matchBrackets: true
+      });
+  });
+
+</script>
+
+{% endblock %}

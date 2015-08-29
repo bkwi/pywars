@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+
+{% block page_body %}
+<p>
+
+  {% for ch in object_list %}
+    <p>
+      Challenge: {{ ch.title }}
+    </p>
+  {% empty %}
+
+    Nothing found
+
+  {% endfor %}
+
+</p>
+{% endblock %}

@@ -2,17 +2,22 @@ import json
 
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.views.generic.base import View, TemplateView
+from django.views.generic.base import View
+
+from django.views.generic import ListView, CreateView
+
+from .models import Challenge
+from .forms import ChallengeForm
 
 from main.utils import LoginRequiredMixin
 from celery_app.tasks import save_code
 
 
-class Challenge(TemplateView): # how about detail view?
-    template_name = 'challenges/challenge.html'
+class ChallengeList(LoginRequiredMixin, ListView):
+    model = Challenge
 
 
-class ChallengeRun(View):
+class ChallengeRun(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         return JsonResponse({'key': 'Value'})
@@ -24,3 +29,9 @@ class ChallengeRun(View):
             save_code.delay(code)
             return JsonResponse({'msg': 'ok'})
         return JsonResponse({'msg': 'NOK'})
+
+
+class ChallengeAdd(CreateView):
+    model = Challenge
+    form_class = ChallengeForm
+    success_url = '/challenge/list'
