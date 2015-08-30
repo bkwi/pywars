@@ -11,8 +11,9 @@
 </p>
 
 <p>
-<textarea id="editor"></textarea>
+  <textarea id="editor"></textarea>
 </p>
+
 <a id="run-code" class="btn btn-primary btn-md" role="button">Run</a>
 {% endblock %}
 
@@ -34,7 +35,8 @@
   editor.setValue('{{ object.initial_code|escapejs }}');
 
   var csrfToken = '{{ csrf_token }}';
-  var challendeId = '{{ object.pk }}';
+  var challengeId = '{{ object.pk }}';
+  var userId = '{{ request.user.id }}';
 
 </script>
 

@@ -17,3 +17,7 @@ class Challenge(models.Model):
 
     def get_absolute_url(self):
         return '/challenge/%s' % self.pk
+
+    def tests_as_list_of_strings(self):
+        li = self.tests.split('\n')
+        return [x.strip() for x in li if x]

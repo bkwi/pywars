@@ -6,7 +6,8 @@ $(document).ready(function() {
 
     $('#run-code').click(function() {
       var body = JSON.stringify({
-            code: editor.getValue()
+            solution: editor.getValue(),
+            challengeId: challengeId
         });
 
       $.post(config.runUrl, {

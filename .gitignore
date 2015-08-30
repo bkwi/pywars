@@ -6,3 +6,4 @@ temp.py
 
 pywars/config/development.py
 pywars/config/production.py
+tempfiles/*
