@@ -19,5 +19,4 @@ for statement in statements:
         break
 
 print json.dumps(response)
-
 '''

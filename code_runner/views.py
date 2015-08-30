@@ -31,7 +31,7 @@ class RunCode(LoginRequiredMixin, View):
                         test_statements=challenge.tests_as_list_of_strings())
 
         if solution:
-            run(code)
+            run.delay(code)
             return JsonResponse({'status': True, 'msg': 'task queued'})
 
         return JsonResponse({'status': False, 'msg': 'error'})

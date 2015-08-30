@@ -1,5 +1,27 @@
 $(document).ready(function() {
 
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+
+    var pusher = new Pusher('f6529fc03db74bc20068', {
+      encrypted: true
+    });
+
+    var channel = pusher.subscribe('test_channel');
+    channel.bind('test_result', function(data) {
+        var elem = $('#test_result');
+        if (data.passed) {
+            elem.html('PASSED!').show();
+        }
+        else {
+            elem.html('NOT PASSED!').show();
+        }
+    });
+
     var config = {
       runUrl: '/run',
     }
