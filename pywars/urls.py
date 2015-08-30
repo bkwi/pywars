@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 
 from code_runner.views import RunCode
+from main.views import PusherAuth
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(pattern_name='main:index', permanent=True)),
@@ -30,6 +31,7 @@ urlpatterns = [
     url(r'^challenge/', include('challenges.urls', namespace='challenge')),
 
     url(r'^run', RunCode.as_view()),
+    url(r'^pusher/auth', PusherAuth.as_view()),
 
     url(r'^admin/', include(admin.site.urls)),
 ]

@@ -1,4 +1,5 @@
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.conf import settings
 
 from .models import Challenge
 from .forms import ChallengeForm
@@ -18,6 +19,12 @@ class ChallengeAdd(CreateView):
 
 class ChallengeDetails(LoginRequiredMixin, DetailView):
     model = Challenge
+
+    def get_context_data(self, **kwargs):
+        context = super(ChallengeDetails, self).get_context_data(**kwargs)
+        ch_name = settings.PUSHER_CHANNEL.format(self.request.user.id)
+        context['channel_name'] = ch_name
+        return context
 
 
 class ChallengeEdit(LoginRequiredMixin, UpdateView):

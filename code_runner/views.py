@@ -24,6 +24,7 @@ class RunCode(LoginRequiredMixin, View):
 
         solution = data.get('solution')
         challenge_id = data.get('challengeId')
+        user_id = data.get('userId')
         challenge = Challenge.objects.get(id=challenge_id)
 
         code = Template(code_template)
@@ -31,7 +32,7 @@ class RunCode(LoginRequiredMixin, View):
                         test_statements=challenge.tests_as_list_of_strings())
 
         if solution:
-            run.delay(code)
+            run(code, challenge_id, user_id)
             return JsonResponse({'status': True, 'msg': 'task queued'})
 
         return JsonResponse({'status': False, 'msg': 'error'})

@@ -17,9 +17,7 @@ import os
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..'))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-
+PUSHER_CHANNEL = 'private-pywars-channel-{}'
 
 AUTH_USER_MODEL = 'users.AppUser'
 LOGIN_URL = '/user/login/'

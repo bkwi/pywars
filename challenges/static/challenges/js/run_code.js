@@ -11,7 +11,7 @@ $(document).ready(function() {
       encrypted: true
     });
 
-    var channel = pusher.subscribe('test_channel');
+    var channel = pusher.subscribe(channelName);
     channel.bind('test_result', function(data) {
         var elem = $('#test_result');
         if (data.passed) {
@@ -29,7 +29,8 @@ $(document).ready(function() {
     $('#run-code').click(function() {
       var body = JSON.stringify({
             solution: editor.getValue(),
-            challengeId: challengeId
+            challengeId: challengeId,
+            userId: userId
         });
 
       $.post(config.runUrl, {
