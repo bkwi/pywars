@@ -4,6 +4,8 @@ from django.contrib.auth.models import (
         BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
 
+from main.utils import _gen_id
+
 class AppUserManager(BaseUserManager):
 
     def create_user(self, email, name, password=None):
@@ -38,6 +40,8 @@ class AppUserManager(BaseUserManager):
 
 
 class AppUser(AbstractBaseUser, PermissionsMixin):
+
+    id = models.CharField(primary_key=True, default=_gen_id, max_length=16)
 
     email = models.EmailField(
         verbose_name="email address",
