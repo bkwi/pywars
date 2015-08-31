@@ -3,9 +3,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.base import View
 from django.http import JsonResponse
 
-from braces.views import CsrfExemptMixin
-
-from main.utils import LoginRequiredMixin
+from braces.views import CsrfExemptMixin, LoginRequiredMixin
 
 from main.utils import push
 

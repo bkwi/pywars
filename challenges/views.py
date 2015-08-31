@@ -4,7 +4,7 @@ from django.conf import settings
 from .models import Challenge
 from .forms import ChallengeForm
 
-from main.utils import LoginRequiredMixin
+from braces.views import LoginRequiredMixin
 
 
 class ChallengeList(LoginRequiredMixin, ListView):

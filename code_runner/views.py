@@ -4,7 +4,7 @@ from django.views.generic.base import View
 from django.http import JsonResponse
 
 from challenges.models import Challenge
-from main.utils import LoginRequiredMixin
+from braces.views import LoginRequiredMixin
 from .tasks import run
 from .utils import code_template
 
