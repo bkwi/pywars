@@ -1,10 +1,11 @@
 from django.conf import settings
 
 from .celery import app
-from main.utils import push
+from main.utils import push, encrypt
 
 import subprocess
 import json
+import hashlib
 
 @app.task()
 def save_code(code):
@@ -28,5 +29,7 @@ def run(code, challenge_id, user_id):
     channel_name = settings.PUSHER_CHANNEL.format(user_id)
 
     result = json.loads(result)
+    if result.get('passed'):
+        result['solution_token'] = encrypt(challenge_id + user_id)
 
     push.trigger(channel_name, 'test_result', result)
