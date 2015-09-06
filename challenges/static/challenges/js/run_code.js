@@ -13,12 +13,18 @@ $(document).ready(function() {
 
     var channel = pusher.subscribe(channelName);
     channel.bind('test_result', function(data) {
+        console.log(data);
+
         var elem = $('#test_result');
+        var submitButton = $('#submit_solution');
+
         if (data.passed) {
-            elem.html('PASSED!').show();
+            elem.html('All tests passed!').show();
+            submitButton.show();
         }
         else {
-            elem.html('NOT PASSED!').show();
+            elem.html('Tests not passed! ' + data.msg).show();
+            submitButton.hide();
         }
     });
 
@@ -45,3 +51,4 @@ $(document).ready(function() {
           });
     })
 })
+

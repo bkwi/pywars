@@ -7,18 +7,15 @@
 
 {% block page_body %}
 <p>
-  Desc: {{ object.description|linebreaksbr}}
+  Desc: {{ challenge.description|linebreaksbr}}
 </p>
 
-<p>
-  <textarea id="editor"></textarea>
-</p>
-
-<a id="run-code" class="btn btn-primary btn-md" role="button">Run</a>
-
-<div>
-    <div id="test_result" style="display: none;">...</div>
-</div>
+<form action="" method="post"> {% csrf_token %}
+  {{ form.as_p }}
+  <a id="run-code" class="btn btn-primary btn-md" role="button">Run</a>
+  <input id="submit_solution" type="submit" value="Submit" style="display: none;"/>
+  <div id="test_result" style="display: none;">...</div>
+</form>
 {% endblock %}
 
 
@@ -31,17 +28,17 @@
 
 <script type="text/javascript">
 
-  editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+  editor = CodeMirror.fromTextArea(document.getElementById("id_code"), {
     lineNumbers: true,
     mode: "python",
     indentUnit: 4,
     matchBrackets: true
   });
 
-  editor.setValue('{{ object.initial_code|escapejs }}');
+  editor.setValue('{{ challenge.initial_code|escapejs }}');
 
   var csrfToken = '{{ csrf_token }}';
-  var challengeId = '{{ object.pk }}';
+  var challengeId = '{{ challenge.pk }}';
   var userId = '{{ request.user.id }}';
   var channelName = '{{ channel_name }}';
 

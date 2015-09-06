@@ -27,4 +27,6 @@ def run(code, challenge_id, user_id):
 
     channel_name = settings.PUSHER_CHANNEL.format(user_id)
 
-    push.trigger(channel_name, 'test_result', json.loads(result))
+    result = json.loads(result)
+
+    push.trigger(channel_name, 'test_result', result)

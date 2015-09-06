@@ -50,6 +50,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
         db_index=True
     )
     name = models.CharField(max_length=255)
+    points = models.PositiveIntegerField(default=0)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', ]
@@ -68,3 +69,10 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 
     def __unicode__(self):
         return self.email
+
+    def already_solved_challenge(self, challenge):
+        for s in self.solutions.all():
+            if s.challenge_id == challenge.id:
+                return True
+        return False
+

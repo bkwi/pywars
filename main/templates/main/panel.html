@@ -2,7 +2,15 @@
 
 {% block page_body %}
 
+Witaj {{ request.user }}
+
+<p>
+Twoje punkty: {{ request.user.points }}
+</p>
+
+<p>
 panel
+</p>
 
 <p>
   <a href="{% url 'challenge:list' %}">list challenges</a>
