@@ -41,12 +41,13 @@ class ChallengeSolve(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        solution = form.save()
+        solution = form.save(commit=False)
         challenge_solved = Challenge.objects.get(pk=solution.challenge_id)
         user = self.request.user
         if not user.already_solved_challenge(challenge_solved):
             user.points += challenge_solved.points
             user.save()
+        solution.save()
         return redirect(self.success_url)
 
 

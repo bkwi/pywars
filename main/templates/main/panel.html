@@ -2,26 +2,9 @@
 
 {% block page_body %}
 
-Witaj {{ request.user }}
+<div class="container">
 
-<p>
-Twoje punkty: {{ request.user.points }}
-</p>
+    Hello {{ request.user }}! Your points: {{ request.user.points }}
 
-<p>
-panel
-</p>
-
-<p>
-  <a href="{% url 'challenge:list' %}">list challenges</a>
-</p>
-
-<p>
-  <a href="{% url 'challenge:add' %}">add challenge</a>
-</p>
-
-<p>
-  <a href="{% url 'user:logout' %}">logout</a>
-</p>
-
+</div>
 {% endblock %}

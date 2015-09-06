@@ -3,19 +3,22 @@
 
 
 {% block page_body %}
-<p>
+<div class="container">
+  {% if request.user.is_admin %}
+  <p>
+    <a href="{% url 'challenge:add' %}" class="btn btn-primary btn-md" role="button">Add new challenge</a>
+  </p>
+  {% endif %}
 
-  {% for ch in object_list %}
-    <p>
-      Challenge: {{ ch.title }}
-      <a href="{% url 'challenge:solve' ch.pk %}">show</a>
-      <a href="{% url 'challenge:edit' ch.pk %}">edit</a>
-    </p>
-  {% empty %}
+    {% for ch in object_list %}
 
-    Nothing found
+      {% include 'challenges/_challenge_list_element.html' %}
 
-  {% endfor %}
+    {% empty %}
 
-</p>
+      Nothing found
+
+    {% endfor %}
+
+</div>
 {% endblock %}
