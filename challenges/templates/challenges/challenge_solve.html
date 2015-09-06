@@ -6,16 +6,25 @@
 {% endblock %}
 
 {% block page_body %}
-<p>
-  Desc: {{ challenge.description|linebreaksbr}}
-</p>
+<div class="container">
+ <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+        Challenge description
+    </h3>
+  </div>
+  <div class="panel-body">
+     Desc: {{ challenge.description|linebreaksbr}}
+ </div>
+ </div>
 
-<form action="" method="post"> {% csrf_token %}
-  {{ form.as_p }}
-  <a id="run-code" class="btn btn-primary btn-md" role="button">Run</a>
-  <input id="submit_solution" type="submit" value="Submit" style="display: none;"/>
-  <div id="test_result" style="display: none;">...</div>
-</form>
+ <form action="" method="post"> {% csrf_token %}
+   {{ form.as_p }}
+   <a id="run-code" class="btn btn-primary btn-md" role="button">Run</a>
+   <input id="submit_solution" type="submit" class="btn btn-primary btn-md" value="Submit" style="display: none;"/>
+   <div id="test_result" style="display: none;">...</div>
+ </form>
+</div>
 {% endblock %}
 
 
