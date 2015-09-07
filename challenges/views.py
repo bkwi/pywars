@@ -58,3 +58,17 @@ class ChallengeEdit(LoginRequiredMixin, UpdateView):
     model = Challenge
     form_class = ChallengeForm
 
+
+class ChallengeSolutions(LoginRequiredMixin, ListView):
+    model = Solution
+    template_name = 'challenges/challenge_solutions_list.html'
+
+    def get_context_data(self, **kwargs):
+        challenge = Challenge.objects.get(id=self.kwargs.get('pk'))
+        solutions = []
+
+        if self.request.user.already_solved_challenge(challenge):
+            solutions = Solution.objects.filter(challenge_id=challenge.id)
+
+        return {'solutions': solutions }
+

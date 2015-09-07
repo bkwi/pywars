@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block page_body %}
+
+<div class="container">
+  {% for solution in solutions %}
+    {% include 'challenges/_solution_template.html' %}
+  {% empty %}
+    Solve this challenge to see other solutions!
+  {% endfor %}
+</div>
+
+{% endblock %}
