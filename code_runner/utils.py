@@ -7,7 +7,7 @@ $solution
 
 statements = $test_statements
 
-response = {'passed': True, 'msg': ''}
+response = {'passed': True, 'msg': '', 'action': 'test_result'}
 
 for statement in statements:
     try:

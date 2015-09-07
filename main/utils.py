@@ -12,10 +12,5 @@ def _gen_id():
     return os.urandom(16).encode('hex')[:16]
 
 def encrypt(string_data):
-    return hashlib.sha224(string_data + settings.SECRET_KEY).hexdigest()
+    return hashlib.sha224(string_data).hexdigest()
 
-push = pusher.Pusher(app_id=settings.PUSHER_APP_ID,
-                     key=settings.PUSHER_KEY,
-                     secret=settings.PUSHER_SECRET,
-                     ssl=True,
-                     port=443)
