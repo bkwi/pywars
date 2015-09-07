@@ -8,6 +8,9 @@ from .forms import ChallengeForm, SolutionForm
 
 from braces.views import LoginRequiredMixin
 
+import pickle
+import base64
+
 
 class ChallengeList(LoginRequiredMixin, ListView):
     model = Challenge
@@ -32,11 +35,11 @@ class ChallengeSolve(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super(ChallengeSolve, self).get_context_data(**kwargs)
 
-        channel_name = settings.PUSHER_CHANNEL.format(self.request.user.id)
         challenge = Challenge.objects.get(pk=self.kwargs.get('pk'))
+        tests = challenge.tests_as_list_of_strings()
 
         context['challenge'] = challenge
-        context['channel_name'] = channel_name
+        context['tests'] = base64.encodestring(pickle.dumps(tests))
 
         return context
 

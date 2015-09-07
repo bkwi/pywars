@@ -20,7 +20,6 @@
 
  <form id="challenge_form" action="" method="post"> {% csrf_token %}
    {{ form.as_p }}
-   <a id="run_code" class="btn btn-primary btn-md" role="button">Test my solution</a>
    <p>
      <div class="alert alert-success js_tests_passed" role="alert" style="display: none;">
          Tests passed! You can now refactor your code (if needed) and submit you solution.
@@ -29,6 +28,7 @@
          Tests failed! <span class="js_error_msg"></span>
      </div>
    </p>
+   <a id="run_code" class="btn btn-primary btn-md" role="button">Test my solution</a>
  </form>
 </div>
 {% endblock %}
@@ -53,10 +53,9 @@
   var csrfToken = '{{ csrf_token }}';
   var challengeId = '{{ challenge.pk }}';
   var userId = '{{ request.user.id }}';
-  var channelName = '{{ channel_name }}';
+  var tests = '{{ tests|escapejs }}';
 
 </script>
 
 <script src="{% static 'challenges/js/run_code.js' %}"></script>
-<script src="https://js.pusher.com/2.2/pusher.min.js"></script>
 {% endblock %}

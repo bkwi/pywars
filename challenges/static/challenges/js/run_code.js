@@ -1,70 +1,68 @@
 $(document).ready(function() {
 
-    // Enable pusher logging - don't include this in production
-    Pusher.log = function(message) {
-      if (window.console && window.console.log) {
-        window.console.log(message);
+    var readyToSubmit = false;
+    var testsPassedMsg = $('.js_tests_passed');
+    var testsFailedMsg = $('.js_tests_failed');
+    var errorMsg = $('.js_error_msg');
+    var runCodeButton = $('#run_code');
+    var tokenField = $('#id_solution_token');
+
+    function handleData (data) {
+      if (data.action == 'test_result') {
+        if (data.passed) {
+          testsPassedMsg.show();
+          testsFailedMsg.hide();
+
+          if (readyToSubmit) {
+              $('#challenge_form').submit();
+          }
+
+          tokenField.val(data.solution_token);
+          readyToSubmit = true;
+          runCodeButton.html('Submit solution');
+        }
+        else {
+          errorMsg.html(data.msg);
+          testsFailedMsg.show();
+          testsPassedMsg.hide();
+          readyToSubmit = false;
+          runCodeButton.html('Test my solution');
+        }
+      }
+    }
+
+    var ws = new WebSocket("ws://192.168.33.10:4444/websocket");
+
+    ws.onopen = function() {
+      data = {
+        action: 'init',
+        user: userId,
+        challenge: challengeId
+      }
+      ws.send(JSON.stringify(data));
+    };
+
+    ws.onmessage = function (evt) {
+      try {
+        // console.log(evt.data);
+        data = jQuery.parseJSON(evt.data);
+        handleData(data);
+      }
+      catch(err) {
+        console.log(err);
+        console.log(evt.data);
       }
     };
 
-    var pusher = new Pusher('f6529fc03db74bc20068', {
-      encrypted: true
-    });
-
-    var readyToSubmit = false;
-
-    var channel = pusher.subscribe(channelName);
-    channel.bind('test_result', function(data) {
-        console.log(data);
-
-        var testsPassedMsg = $('.js_tests_passed');
-        var testsFailedMsg = $('.js_tests_failed');
-        var errorMsg = $('.js_error_msg');
-        var runCodeButton = $('#run_code');
-        var tokenField = $('#id_solution_token');
-
-        if (data.passed) {
-            testsPassedMsg.show();
-            testsFailedMsg.hide()
-
-            if (readyToSubmit) {
-                $('#challenge_form').submit();
-            }
-
-            tokenField.val(data.solution_token);
-            readyToSubmit = true;
-            runCodeButton.html('Submit solution');
-        }
-        else {
-            errorMsg.html(data.msg);
-            testsFailedMsg.show();
-            testsPassedMsg.hide();
-            readyToSubmit = false;
-            runCodeButton.html('Test my solution');
-        }
-    });
-
-    var config = {
-      runUrl: '/run',
-    }
-
     $('#run_code').click(function() {
       var body = JSON.stringify({
-            solution: editor.getValue(),
-            challengeId: challengeId,
-            userId: userId
-        });
-
-      $.post(config.runUrl, {
-            data: body,
-            csrfmiddlewaretoken: csrfToken
-          })
-          .done(function(data) {
-              console.log(data);
-          })
-          .fail(function(err) {
-              console.log(err);
-          });
+        action: 'test_solution',
+        solution: editor.getValue(),
+        challengeId: challengeId,
+        userId: userId,
+        tests: tests
+      });
+      ws.send(body)
     })
 })
 
