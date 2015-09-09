@@ -1,6 +1,10 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'challenges/css/highlightjs_default.css' %}">
+{% endblock %}
+
 {% block page_body %}
 
 <div class="container">
@@ -14,10 +18,15 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static 'challenges/js/highlight.pack.js' %}"></script>
+
 <script type="text/javascript">
+  hljs.initHighlightingOnLoad();
+
   var userId = '{{ request.user.id }}';
   var csrfToken = '{{ csrf_token }}';
 </script>
+
 <script src="{% static 'challenges/js/vote.js' %}"></script>
 {% endblock %}
 
