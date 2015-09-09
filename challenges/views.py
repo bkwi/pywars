@@ -1,9 +1,10 @@
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, View
 from django.views.generic.edit import FormView
 from django.conf import settings
 from django.shortcuts import redirect
+from django.http import JsonResponse
 
-from .models import Challenge, Solution
+from .models import Challenge, Solution, Vote
 from .forms import ChallengeForm, SolutionForm
 
 from braces.views import LoginRequiredMixin
@@ -20,6 +21,7 @@ class ChallengeAdd(LoginRequiredMixin, CreateView):
     model = Challenge
     form_class = ChallengeForm
     success_url = '/challenge/list'
+
 
 class ChallengeSolve(LoginRequiredMixin, FormView):
     template_name = 'challenges/challenge_solve.html'
@@ -68,7 +70,22 @@ class ChallengeSolutions(LoginRequiredMixin, ListView):
         solutions = []
 
         if self.request.user.already_solved_challenge(challenge):
-            solutions = Solution.objects.filter(challenge_id=challenge.id)
+            solutions = Solution.objects.filter(
+                    challenge_id=challenge.id).order_by('-votes_count')
 
         return {'solutions': solutions }
 
+
+class VoteOnSolution(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        solution = Solution.objects.get(id=self.kwargs.get('pk'))
+        if Vote.objects.filter(solution=solution, user=request.user):
+            return JsonResponse({'ok': False})
+
+        vote = Vote(solution=solution, user=request.user)
+        vote.save()
+
+        solution.votes_count += 1
+        solution.save()
+        return JsonResponse({'ok': True, 'new_value': solution.votes_count})

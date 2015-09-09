@@ -1,8 +1,20 @@
 <div class="panel panel-default">
+
   <div class="panel-heading">
-      author: {{ solution.author.name }}
+    author: {{ solution.author.name }}
+    <span class="pull-right">
+      <button class="btn btn-xs btn-default" type="button">
+          Votes <span solution-id="{{ solution.id }}" class="badge">{{ solution.votes_count }}</span>
+      </button>
+      <button class="btn btn-xs btn-default js_vote_up" solution-id="{{ solution.id }}" type="button">
+          Vote up!
+        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+      </button>
+    </span>
   </div>
+
   <div class="panel-body">
       {{ solution.code }}
   </div>
+
 </div>

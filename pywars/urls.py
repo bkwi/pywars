@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^logout/', RedirectView.as_view(pattern_name='user:logout', permanent=True)),
 
     url(r'^challenge/', include('challenges.urls', namespace='challenge')),
+    url(r'^solution/', include('challenges.urls', namespace='challenge')),
 
     url(r'^admin/', include(admin.site.urls)),
 ]

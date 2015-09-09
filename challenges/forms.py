@@ -17,7 +17,7 @@ class SolutionForm(forms.ModelForm):
         model = Solution
         widgets = {'challenge_id': forms.HiddenInput(),
                    'author': forms.HiddenInput()}
-        exclude = ('id', )
+        exclude = ('id', 'votes_count')
 
     def clean_solution_token(self):
         token = self.cleaned_data.get('solution_token')

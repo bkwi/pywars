@@ -12,3 +12,12 @@
 </div>
 
 {% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  var userId = '{{ request.user.id }}';
+  var csrfToken = '{{ csrf_token }}';
+</script>
+<script src="{% static 'challenges/js/vote.js' %}"></script>
+{% endblock %}
+

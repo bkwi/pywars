@@ -30,7 +30,15 @@ class Solution(models.Model):
     id = models.CharField(primary_key=True, default=_gen_id, max_length=16)
     challenge_id = models.CharField(max_length=16)
     code = models.TextField()
+    votes_count = models.IntegerField(default=0)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               related_name='solutions',
-                               null=False)
+                               related_name='solutions', null=False)
+
+
+class Vote(models.Model):
+
+    id = models.CharField(primary_key=True, default=_gen_id, max_length=16)
+    created_at = models.DateTimeField(auto_now_add=True)
+    solution = models.ForeignKey(Solution, related_name='votes', null=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
