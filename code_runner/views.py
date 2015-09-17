@@ -9,7 +9,8 @@ from string import Template
 
 import tornado.ioloop
 from multiprocessing.pool import ThreadPool
-from utils import code_template
+from utils import code_template, output_separator
+from dockerizer import DockerContainer
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pywars.settings')
@@ -70,13 +71,15 @@ class TestSolution(WebSocketResponse):
         fname = '{}_{}'.format(challenge_id, user_id)
         code = Template(code_template)
         code = code.substitute(solution=solution,
-                        test_statements=tests)
+                        test_statements=tests,
+                        separator=output_separator)
 
         with open('/home/vagrant/pywars/tempfiles/%s.py' % fname, 'w') as f:
             f.write(code)
 
-        result = os.popen('python {}'.format(
-            '/home/vagrant/pywars/tempfiles/%s.py' % fname)).read()
+        with DockerContainer(fname) as dc:
+            result = dc.run()
+            result = result.split('---json-response-below---')[-1].strip()
 
         result = json.loads(result)
         if result.get('passed'):

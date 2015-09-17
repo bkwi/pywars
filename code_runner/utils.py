@@ -1,4 +1,4 @@
-
+output_separator = '---json-response-below---'
 
 code_template = '''
 import json
@@ -18,5 +18,6 @@ for statement in statements:
         response['msg'] = e.message
         break
 
+print '$separator'
 print json.dumps(response)
 '''
