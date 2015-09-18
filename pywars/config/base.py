@@ -34,7 +34,6 @@ INSTALLED_APPS = (
     'main',
     'users',
     'challenges',
-    'djcelery',
     'code_runner'
 )
 
@@ -69,11 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pywars.wsgi.application'
 
-import djcelery
-djcelery.setup_loader()
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -93,3 +87,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+

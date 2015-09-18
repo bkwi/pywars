@@ -31,7 +31,7 @@ $(document).ready(function() {
       }
     }
 
-    var ws = new WebSocket("ws://192.168.33.10:4444/websocket");
+    var ws = new WebSocket(websocketUrl);
 
     ws.onopen = function() {
       data = {

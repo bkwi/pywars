@@ -8,12 +8,16 @@
 </head>
 
 <body>
-    <div class="container">
-      <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Login" />
-      </form>
-    </div> <!-- /container -->
+  <div class="container">
+    <form action="" method="post">{% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Login" />
+    </form>
+  </div> <!-- /container -->
+
+  <p>
+    <a href="{% url 'user:register' %}">register</a>
+  </p>
 </body>
 
 </html>

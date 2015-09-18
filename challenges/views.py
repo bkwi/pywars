@@ -42,6 +42,7 @@ class ChallengeSolve(LoginRequiredMixin, FormView):
 
         context['challenge'] = challenge
         context['tests'] = base64.encodestring(pickle.dumps(tests))
+        context['websocket_url'] = settings.WEBSOCKET_URL
 
         return context
 

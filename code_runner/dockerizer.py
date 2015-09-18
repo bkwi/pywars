@@ -1,5 +1,13 @@
 import docker
 
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pywars.settings')
+
+from django.conf import settings
+
 
 class DockerContainer(object):
 
@@ -21,7 +29,7 @@ class DockerContainer(object):
                 name=self.cid,
                 host_config=self.client.create_host_config(
                     binds={
-                        '/home/vagrant/pywars/tempfiles': {'bind': '/mnt/temp/',
+                        settings.TEMPFILES_PATH: {'bind': '/mnt/temp/',
                                                            'mode': 'rw'}})
                 )
 

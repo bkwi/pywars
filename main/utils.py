@@ -3,7 +3,6 @@ from django.conf import settings
 import os
 import hashlib
 
-import pusher
 
 def _gen_id():
     """
