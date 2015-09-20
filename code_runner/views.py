@@ -50,7 +50,7 @@ class TestSolution(WebSocketResponse):
 
     def perform(self):
         super(TestSolution, self).perform()
-        self.run_code(self.msg, self.send_test_result)
+        self.run_code(self.msg, callback=self.send_test_result)
 
     def send_test_result(self, resp):
         self.response = resp
@@ -79,9 +79,7 @@ class TestSolution(WebSocketResponse):
 
         with DockerContainer(fname) as dc:
             result = dc.run()
-            result = result.split('---json-response-below---')[-1].strip()
 
-        result = json.loads(result)
         if result.get('passed'):
             token = hashlib.sha224(challenge_id + user_id).hexdigest()
             result['solution_token'] = token

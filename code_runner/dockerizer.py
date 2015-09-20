@@ -1,4 +1,6 @@
 import docker
+import json
+import re
 
 import os
 import sys
@@ -28,14 +30,18 @@ class DockerContainer(object):
                 command="python /mnt/temp/%s.py" % self.cid,
                 name=self.cid,
                 host_config=self.client.create_host_config(
-                    binds={
-                        settings.TEMPFILES_PATH: {'bind': '/mnt/temp/',
-                                                           'mode': 'rw'}})
-                )
+                    binds={settings.TEMPFILES_PATH: {'bind': '/mnt/temp/',
+                                                     'mode': 'rw'}}))
 
             self.client.start(self.cid)
             self.client.wait(self.cid)
-            return self.client.logs(self.cid)
+            output = self.client.logs(self.cid)
+            result = output.split('---json-response-below---')[-1].strip()
+            try:
+                return json.loads(result)
+            except:
+                return {'passed': False, 'msg': 'Something went wrong',
+                        'action': 'test_result'}
         except Exception as e:
             # TODO
             raise e
