@@ -1,6 +1,7 @@
 backports.ssl-match-hostname==3.4.0.2
 certifi==2015.9.6.2
 Django==1.8.4
+django-bootstrap3==6.2.2
 django-braces==1.8.1
 docker-py==1.4.0
 gunicorn==19.3.0
