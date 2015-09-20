@@ -9,11 +9,13 @@ from string import Template
 
 import tornado.ioloop
 from multiprocessing.pool import ThreadPool
-from utils import code_template, output_separator
+from utils import test_code_template, validation_code, output_separator
 from dockerizer import DockerContainer
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pywars.settings')
+
+from django.conf import settings
 
 
 _workers = ThreadPool(10)
@@ -68,13 +70,29 @@ class TestSolution(WebSocketResponse):
         solution = data.get('solution')
         tests = pickle.loads(base64.decodestring(data.get('tests')))
 
+        path = settings.TEMPFILES_PATH
         fname = '{}_{}'.format(challenge_id, user_id)
-        code = Template(code_template)
+
+        # run solution only - check syntax errors etc.
+        code = Template(validation_code)
+        code = code.substitute(solution=solution,
+                    separator=output_separator)
+
+        with open('{}/{}_validate.py'.format(path, fname) , 'w') as f:
+            f.write(code)
+
+        with DockerContainer(fname + '_validate') as dc:
+            result = dc.run()
+
+        if not result.get('valid'):
+            return result
+
+        code = Template(test_code_template)
         code = code.substitute(solution=solution,
                         test_statements=tests,
                         separator=output_separator)
 
-        with open('/home/vagrant/pywars/tempfiles/%s.py' % fname, 'w') as f:
+        with open('{}/{}.py'.format(path, fname) , 'w') as f:
             f.write(code)
 
         with DockerContainer(fname) as dc:

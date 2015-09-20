@@ -10,11 +10,14 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pywars.settings')
 
 from django.conf import settings
 
+from utils import output_separator
+
 
 class DockerContainer(object):
 
     def __init__(self, container_id):
         self.cid = container_id
+        self.client = docker.Client(base_url='unix://var/run/docker.sock')
 
     def __enter__(self):
         return self
@@ -24,7 +27,6 @@ class DockerContainer(object):
 
     def run(self):
         try:
-            self.client = docker.Client(base_url='unix://var/run/docker.sock')
             self.container = self.client.create_container(
                 image='python:2.7',
                 command="python /mnt/temp/%s.py" % self.cid,
@@ -36,11 +38,13 @@ class DockerContainer(object):
             self.client.start(self.cid)
             self.client.wait(self.cid)
             output = self.client.logs(self.cid)
-            result = output.split('---json-response-below---')[-1].strip()
+            result = output.split(output_separator)[-1].strip()
             try:
                 return json.loads(result)
             except:
-                return {'passed': False, 'msg': 'Something went wrong',
+                # Remove file path from traceback
+                output = re.sub(r'(?ms)File "\/mnt.*\.py",', 'In', output)
+                return {'passed': False, 'msg': output,
                         'action': 'test_result'}
         except Exception as e:
             # TODO

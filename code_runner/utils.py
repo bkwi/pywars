@@ -1,6 +1,6 @@
 output_separator = '---json-response-below---'
 
-code_template = '''
+test_code_template = '''
 import json
 
 $solution
@@ -20,4 +20,12 @@ for statement in statements:
 
 print '$separator'
 print json.dumps(response)
+'''
+
+validation_code = '''$solution
+
+import json
+
+print '$separator'
+print json.dumps({'valid': True})
 '''
