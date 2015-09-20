@@ -22,7 +22,7 @@ class LogoutView(View):
 
     def get(self, request, *args, **kwargs):
         logout(request)
-        return HttpResponseRedirect('/user/login')
+        return HttpResponseRedirect('/main')
 
 
 class RegisterUserView(CreateView):

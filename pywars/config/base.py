@@ -34,7 +34,8 @@ INSTALLED_APPS = (
     'main',
     'users',
     'challenges',
-    'code_runner'
+    'code_runner',
+    'bootstrap3'
 )
 
 MIDDLEWARE_CLASSES = (

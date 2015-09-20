@@ -1,22 +1,62 @@
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>PyWars</title>
+
+    <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/cover.css' %}">
   </head>
   <body>
-    INDEX PAGE
+ <div class="site-wrapper">
 
-    <p>
-      {% if request.user.is_authenticated %}
-        <a href="{% url 'main:dashboard' %}">enter</a>
-      {% else %}
-        <a href="{% url 'user:login' %}">login</a>
-      {% endif %}
-    </p>
+      <div class="site-wrapper-inner">
 
-    <p>
-      <a href="{% url 'user:register' %}">register</a>
-    </p>
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">PyWars</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'user:logout' %}">Logout</a></li>
+                  {% else %}
+                    <li><a href="{% url 'user:login' %}">Login</a></li>
+                    <li><a href="{% url 'user:register' %}">Register</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading">Hi!</h1>
+
+          {% if request.user.is_authenticated %}
+            <p class="lead">
+              <a href="{% url 'main:dashboard' %}" class="btn btn-lg btn-default">Enter website</a>
+            </p>
+          {% endif %}
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <script src="{% static 'main/js/jquery-2.1.3.min.js' %}"></script>
+    <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+
   </body>
 </html>
