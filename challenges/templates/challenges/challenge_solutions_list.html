@@ -1,23 +1,21 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block styles %}
+{% block extra_styles %}
 <link rel="stylesheet" href="{% static 'challenges/css/highlightjs_default.css' %}">
 {% endblock %}
 
-{% block page_body %}
+{% block main_content %}
 
-<div class="container">
   {% for solution in solutions %}
     {% include 'challenges/_solution_template.html' %}
   {% empty %}
     Solve this challenge to see other solutions!
   {% endfor %}
-</div>
 
 {% endblock %}
 
-{% block scripts %}
+{% block extra_scripts %}
 <script src="{% static 'challenges/js/highlight.pack.js' %}"></script>
 
 <script type="text/javascript">
@@ -29,4 +27,3 @@
 
 <script src="{% static 'challenges/js/vote.js' %}"></script>
 {% endblock %}
-
