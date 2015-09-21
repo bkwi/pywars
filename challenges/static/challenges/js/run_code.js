@@ -29,6 +29,10 @@ $(document).ready(function() {
           runCodeButton.html('Test my solution');
         }
       }
+      else if (data.action == 'test_queued') {
+        var spinnerCode = '<i class="fa fa-refresh fa-spin"></i>';
+        runCodeButton.html(spinnerCode + ' Testing solution');
+      }
     }
 
     var ws = new WebSocket(websocketUrl);
@@ -65,4 +69,3 @@ $(document).ready(function() {
       ws.send(body)
     })
 })
-
