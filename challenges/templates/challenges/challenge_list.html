@@ -1,9 +1,15 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
+{% block header_big %}
+Challenges
+{% endblock %}
 
-{% block page_body %}
-<div class="container">
+{% block header_small %}
+see something you like?
+{% endblock %}
+
+{% block main_content %}
   {% if request.user.is_admin %}
   <p>
     <a href="{% url 'challenge:add' %}" class="btn btn-primary btn-md" role="button">Add new challenge</a>
@@ -20,5 +26,4 @@
 
     {% endfor %}
 
-</div>
 {% endblock %}

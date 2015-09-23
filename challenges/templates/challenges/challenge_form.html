@@ -1,20 +1,20 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block styles %}
+{% block extra_styles %}
 <link rel="stylesheet" href="{% static 'challenges/css/codemirror.css' %}">
 {% endblock %}
 
-{% block page_body %}
+{% block main_content %}
 <p>
   <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Create" />
+    <input type="submit" value="Save" />
   </form>
 </p>
 {% endblock %}
 
-{% block scripts %}
+{% block extra_scripts %}
 <script src="{% static 'challenges/js/codemirror.js' %}"></script>
 <script src="{% static 'challenges/js/codemirror_python.js' %}"></script>
 <script src="{% static 'challenges/js/codemirror_matchbrackets.js' %}"></script>

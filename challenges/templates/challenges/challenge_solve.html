@@ -1,12 +1,19 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block styles %}
+{% block extra_styles %}
 <link rel="stylesheet" href="{% static 'challenges/css/codemirror.css' %}">
 {% endblock %}
 
-{% block page_body %}
-<div class="container">
+{% block header_big %}
+Challenge
+{% endblock %}
+
+{% block header_small %}
+{{ challenge.title }}
+{% endblock %}
+
+{% block main_content %}
  <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">
@@ -20,21 +27,26 @@
 
  <form id="challenge_form" action="" method="post"> {% csrf_token %}
    {{ form.as_p }}
-   <p>
+ </form>
+
+ <div class="row">
+   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+     <a id="run_code" class="btn btn-primary btn-md" role="button">Test my solution</a>
+   </div>
+   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
      <div class="alert alert-success js_tests_passed" role="alert" style="display: none;">
-         Tests passed! You can now refactor your code (if needed) and submit you solution.
+       Tests passed! You can now refactor your code (if needed) and submit your solution.
      </div>
      <div class="alert alert-danger js_tests_failed" role="alert" style="display: none;">
-         Tests failed! <span class="js_error_msg"></span>
+       Tests failed! <span class="js_error_msg"></span>
      </div>
-   </p>
-   <a id="run_code" class="btn btn-primary btn-md" role="button">Test my solution</a>
- </form>
-</div>
+   </div>
+ </div>
+
 {% endblock %}
 
 
-{% block scripts %}
+{% block extra_scripts %}
 <script src="{% static 'challenges/js/codemirror.js' %}"></script>
 <script src="{% static 'challenges/js/codemirror_python.js' %}"></script>
 <script src="{% static 'challenges/js/codemirror_matchbrackets.js' %}"></script>

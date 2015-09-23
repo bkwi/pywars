@@ -48,7 +48,7 @@ class Init(WebSocketResponse):
 
 
 class TestSolution(WebSocketResponse):
-    response = {'action': 'test_solution', 'msg': 'queued'}
+    response = {'action': 'test_queued', 'msg': 'queued'}
 
     def perform(self):
         super(TestSolution, self).perform()
@@ -103,4 +103,3 @@ class TestSolution(WebSocketResponse):
             result['solution_token'] = token
 
         return result
-
