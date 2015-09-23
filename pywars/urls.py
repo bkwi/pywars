@@ -19,7 +19,7 @@ from django.views.generic import RedirectView
 
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(pattern_name='main:index', permanent=True)),
+    url(r'^$', RedirectView.as_view(pattern_name='user:login', permanent=True)),
     url(r'^main/', include('main.urls', namespace='main')),
 
     url(r'^user/', include('users.urls', namespace='user')),

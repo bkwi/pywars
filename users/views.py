@@ -29,4 +29,3 @@ class RegisterUserView(CreateView):
     model = AppUser
     form_class  = RegisterUserForm
     success_url = '/main'
-
