@@ -195,7 +195,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <footer class="main-footer">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
+          <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
           Any feedback is welcome! <i class="fa fa-smile-o "></i>
+</button>
         </div>
         <!-- Default to the left -->
         <strong><a href="http://bkwi.pl">bkwi</a> &copy; 2015 </strong>
@@ -265,6 +268,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
+    <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Give some feedback!</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group js_feedback_form">
+          <label>Textarea</label>
+          <textarea class="form-control js_feedback" rows="3" placeholder="..."></textarea>
+        </div>
+        <div class="callout callout-success js_feedback_success" style="display: none;">
+          <h4>Thanks!</h4>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary js_send_feedback">Send</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
     <!-- REQUIRED JS SCRIPTS -->
 
     <!-- jQuery 2.1.4 -->
@@ -273,6 +303,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
     <!-- AdminLTE App -->
     <script src="{% static 'main/js/app.min.js' %}"></script>
+
+    <script src="{% static 'main/js/main.js' %}"></script>
+
+    <script type="text/javascript">
+      var csrfToken = '{{ csrf_token }}';
+    </script>
 
     {% block extra_scripts %}
     {% endblock %}
