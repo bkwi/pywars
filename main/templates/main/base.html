@@ -80,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <img src="https://robohash.org/{{ request.user.name }}.png?size=160x160" class="img-circle" alt="User Image">
                     <p>
                       {{ request.user.name }}
-                      <small>Member since Sep. 2015</small>
+                      <small>Member since {{ request.user.created_at|date:"d M Y" }}</small>
                     </p>
                   </li>
                   <!-- Menu Body -->

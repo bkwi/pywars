@@ -1,10 +1,29 @@
 {% extends 'main/base.html' %}
 
-{% block page_body %}
+{% block main_content %}
 
-<div class="container">
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">Joined in last 30 days</h3>
+    <div class="box-tools pull-right">
+      <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+    </div>
+  </div><!-- /.box-header -->
+  <div class="box-body no-padding">
+    <ul class="users-list clearfix">
+      {% for u in new_users %}
+      <li>
+        <img src="https://robohash.org/{{ u.name }}.png?size=80x80" alt="User Image">
+        <h4>
+          {{ u.name }}
+        </h4>
+        <span class="users-list-date">Joined: {{ u.created_at|date:"d M Y"}}</span>
+      </li>
+      {% endfor %}
 
-    Hello {{ request.user.name }}! Your points: {{ request.user.points }}
+    </ul><!-- /.users-list -->
+  </div><!-- /.box-body -->
 
 </div>
+
 {% endblock %}
