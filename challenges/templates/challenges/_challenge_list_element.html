@@ -10,7 +10,7 @@
     </h3>
   </div>
   <div class="panel-body">
-      {{ ch.description }}
+      {{ ch.description|truncatechars:120 }}
       <span class="pull-right">
           <a href="{% url 'challenge:solutions' ch.pk %}" class="btn btn-success btn-md" role="button">Show solutions</a>
           <a href="{% url 'challenge:solve' ch.pk %}" class="btn btn-primary btn-md" role="button">Solve!</a>

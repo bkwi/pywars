@@ -8,6 +8,7 @@ from braces.views import CsrfExemptMixin, LoginRequiredMixin
 
 from .utils import send_email
 from users.models import AppUser
+from challenges.models import Challenge
 
 import datetime
 
@@ -24,6 +25,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         date_from = datetime.datetime.now() + datetime.timedelta(-30)
         new_users = AppUser.objects.filter(created_at__gte=date_from). \
                                     order_by('-created_at')
+        latest_challenges = Challenge.objects.order_by('-created_at')[:5]
+
+        context['latest_challenges'] = latest_challenges
         context['new_users'] = new_users
         return context
 
