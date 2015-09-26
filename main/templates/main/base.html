@@ -42,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="{% url 'main:dashboard' %}" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>Py</b>W</span>
           <!-- logo for regular state and mobile devices -->
@@ -279,7 +279,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
       <div class="modal-body">
         <div class="form-group js_feedback_form">
-          <label>Textarea</label>
           <textarea class="form-control js_feedback" rows="3" placeholder="..."></textarea>
         </div>
         <div class="callout callout-success js_feedback_success" style="display: none;">

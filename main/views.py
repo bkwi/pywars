@@ -21,7 +21,8 @@ class FeedbackView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         author = request.user.email
         feedback = request.POST.get('data')
-        message = '{} wrote:\n\n{}'.format(author, feedback)
-        send_email(email_address=settings.ADMIN_EMAIL_ADDRESS,
-                   body=message, subject='PyWars Feedback')
+        if feedback:
+            message = '{} wrote:\n\n{}'.format(author, feedback)
+            send_email(email_address=settings.ADMIN_EMAIL_ADDRESS,
+                       body=message, subject='PyWars Feedback')
         return JsonResponse({'ok': True})
