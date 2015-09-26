@@ -49,7 +49,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
         unique=True,
         db_index=True
     )
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     points = models.PositiveIntegerField(default=0)
 
