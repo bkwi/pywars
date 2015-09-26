@@ -37,6 +37,8 @@
       <div class="register-box-body">
         <p class="login-box-msg">Create a new account</p>
         <form action="" method="post"> {% csrf_token %}
+          {{ form.name.errors }}
+          {{ form.email.errors }}
           <div class="form-group has-feedback">
             {{ form.name|add_class:"form-control"|attr:"placeholder:Username" }}
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
