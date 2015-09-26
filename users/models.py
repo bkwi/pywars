@@ -50,6 +50,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
         db_index=True
     )
     name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
     points = models.PositiveIntegerField(default=0)
 
     USERNAME_FIELD = 'email'

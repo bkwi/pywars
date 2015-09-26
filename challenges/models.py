@@ -7,6 +7,7 @@ from main.utils import _gen_id
 class Challenge(models.Model):
 
     id = models.CharField(primary_key=True, default=_gen_id, max_length=16)
+    created_at = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=150, unique=True)
     description = models.TextField()
     initial_code = models.TextField()
@@ -28,6 +29,7 @@ class Challenge(models.Model):
 class Solution(models.Model):
 
     id = models.CharField(primary_key=True, default=_gen_id, max_length=16)
+    created_at = models.DateTimeField(auto_now_add=True)
     challenge_id = models.CharField(max_length=16)
     code = models.TextField()
     votes_count = models.IntegerField(default=0)
