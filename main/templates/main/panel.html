@@ -22,7 +22,7 @@
         <tbody>
           {% for ch in latest_challenges %}
           <tr>
-            <td><a href="pages/examples/invoice.html">{{ ch.title }}</a></td>
+            <td><a href="{% url 'challenge:solve' ch.pk %}">{{ ch.title }}</a></td>
             <td>{{ ch.description|truncatechars:100 }}</td>
             <td>{{ ch.created_at|date:"SHORT_DATE_FORMAT" }}</td>
           </tr>
