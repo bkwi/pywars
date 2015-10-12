@@ -49,7 +49,7 @@ class HallOfFame(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HallOfFame, self).get_context_data(**kwargs)
-        context['top_ten'] = AppUser.objects.order_by(
-                                        '-points', '-created_at')[:10]
+        context['top_ten'] = AppUser.objects.filter(points__gt=0). \
+                                  order_by('-points', '-created_at')[:10]
         return context
 
