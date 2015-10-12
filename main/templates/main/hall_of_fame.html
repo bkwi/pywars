@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+{% load custom_filters %}
+
+{% block header_big %}
+Top 10!
+{% endblock %}
+
+{% block header_small %}
+Did you make it?
+{% endblock %}
+
+{% block main_content %}
+
+{% for user in top_ten %}
+<div class="row">
+  <div class="col-md-3"></div>
+
+
+  <div class="col-md-5">
+
+
+    <div class="box box-primary">
+      <div class="box-body box-profile">
+          <img class="profile-user-img img-responsive img-circle" src="https://robohash.org/{{ user.name }}.png?size=160x160" alt="{{ user.name }}">
+        <h3 class="profile-username text-center">{{ user.name }}</h3>
+        <p class="text-muted text-center">
+          Ranked {{ forloop.counter|to_ordinal }}
+        </p>
+
+        <ul class="list-group list-group-unbordered">
+          <li class="list-group-item">
+          <b>Points</b> <a class="pull-right">{{ user.points }}</a>
+          </li>
+        </ul>
+
+        <!--a href="#" class="btn btn-primary btn-block"><b>Follow</b></a-->
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="col-md-3"></div>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -31,6 +31,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['new_users'] = new_users
         return context
 
+
 class FeedbackView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
@@ -41,3 +42,14 @@ class FeedbackView(LoginRequiredMixin, View):
             send_email(email_address=settings.ADMIN_EMAIL_ADDRESS,
                        body=message, subject='PyWars Feedback')
         return JsonResponse({'ok': True})
+
+
+class HallOfFame(LoginRequiredMixin, TemplateView):
+    template_name = 'main/hall_of_fame.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(HallOfFame, self).get_context_data(**kwargs)
+        context['top_ten'] = AppUser.objects.order_by('-points')[:10]
+        return context
+
+

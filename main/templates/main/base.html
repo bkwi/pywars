@@ -149,6 +149,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Optionally, you can add icons to the links -->
             <li class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><a href="{% url 'main:dashboard' %}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
             <li class="{% if request.resolver_match.url_name == 'list' %}active{% endif %}"><a href="{% url 'challenge:list' %}"><i class="fa fa-gamepad"></i> <span>Challenges</span></a></li>
+            <li class="{% if request.resolver_match.url_name == 'hall_of_fame' %}active{% endif %}"><a href="{% url 'main:hall_of_fame' %}"><i class="fa fa-trophy"></i> <span>Hall Of Fame</span></a></li>
             <!--li class="treeview">
               <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
