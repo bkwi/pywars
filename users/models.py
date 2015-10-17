@@ -68,6 +68,9 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.email
 
+    def avatar_url(self):
+        return "https://robohash.org/{}.png".format(self.name)
+
     def __unicode__(self):
         return self.email
 

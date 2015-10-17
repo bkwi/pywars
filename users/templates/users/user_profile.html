@@ -1,0 +1,132 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+{% load custom_filters %}
+{% load widget_tweaks %}
+
+{% block header_big %}
+User Profile
+{% endblock %}
+
+{% block header_small %}
+
+{% endblock %}
+
+{% block main_content %}
+
+<div class="row">
+  <div class="col-md-3">
+
+    <!-- Profile Image -->
+    <div class="box box-primary">
+      <div class="box-body box-profile">
+          <img class="profile-user-img img-responsive img-circle" src="{{ user.avatar_url }}" alt="{{ user.name }}">
+          <h3 class="profile-username text-center">{{ user.name }}</h3>
+        <p class="text-muted text-center">Software Engineer</p>
+
+        <ul class="list-group list-group-unbordered">
+          <li class="list-group-item">
+          <b>Points</b> <a class="pull-right">{{ user.points }}</a>
+          </li>
+          <li class="list-group-item">
+          <b>Challenges solved</b> <a class="pull-right">{{ user.solutions.count }}</a>
+          </li>
+        </ul>
+
+      </div><!-- /.box-body -->
+    </div><!-- /.box -->
+
+  </div><!-- /.col -->
+
+
+  <div class="col-md-9">
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <!--li ><a href="#activity" data-toggle="tab">Activity</a></li>
+        <li><a href="#timeline" data-toggle="tab">Timeline</a></li-->
+        <li class="active"><a href="#settings" data-toggle="tab">User Settings</a></li>
+        <li><a class="js_change_password_tab" href="#change-password" data-toggle="tab">Change Password</a></li-->
+      </ul>
+      <div class="tab-content">
+
+        <div class="active tab-pane" id="settings">
+          <form action="" method="post" class="form-horizontal">
+              {% csrf_token %}
+            <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Username</label>
+              <div class="col-sm-10">
+               {{ form.name.errors }}
+               {{ form.name|add_class:"form-control"|attr:"placeholder:Username" }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+              <div class="col-sm-10">
+                {{ form.email.errors }}
+                {{ form.email|add_class:"form-control"|attr:"placeholder:Email" }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" name="form" class="btn btn-danger">Submit</button>
+              </div>
+            </div>
+
+          </form>
+        </div><!-- /.tab-pane -->
+
+        <div class="tab-pane" id="change-password">
+
+          <form action="" method="post" class="form-horizontal">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Old Password</label>
+              <div class="col-sm-10">
+               {{ form2.old_password.errors }}
+               {{ form2.old_password|add_class:"form-control"|attr:"placeholder:Old Password" }}
+              </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">New Password</label>
+              <div class="col-sm-10">
+               {{ form2.new_password1.errors }}
+               {{ form2.new_password1|add_class:"form-control"|attr:"placeholder:New Password" }}
+              </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Confirm New Password</label>
+              <div class="col-sm-10">
+               {{ form2.new_password2.errors }}
+               {{ form2.new_password2|add_class:"form-control"|attr:"placeholder:Confirm Password" }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" name="form2" class="btn btn-danger">Submit</button>
+              </div>
+            </div>
+          </form>
+
+        </div><!-- /.tab-pane -->
+
+      </div><!-- /.tab-content -->
+    </div><!-- /.nav-tabs-custom -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+{% endblock %}
+
+{% block extra_scripts %}
+  {% if switch_tab %}
+    <script>
+      $(document).ready(function(){
+        $('.js_change_password_tab').click();
+      });
+    </script>
+  {% endif %}
+{% endblock %}

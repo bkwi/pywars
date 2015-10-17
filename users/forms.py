@@ -27,3 +27,11 @@ class RegisterUserForm(forms.ModelForm):
             raise forms.ValidationError('Passwords do not match',
                                         code='invalid')
         return password2
+
+
+class UserSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = AppUser
+        fields = ['name', 'email']
+
