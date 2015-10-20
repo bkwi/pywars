@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
 
-from .views import ChallengeList, ChallengeAdd, ChallengeEdit, \
-                   ChallengeSolve, ChallengeSolutions, VoteOnSolution
+from .views import (ChallengeList, ChallengeAdd, ChallengeEdit,
+                    ChallengeSolve, ChallengeSolutions, VoteOnSolution,
+                    SolutionCommentAPI)
 
 urlpatterns = [
     url(r'^list', ChallengeList.as_view(), name='list'),
@@ -12,4 +13,6 @@ urlpatterns = [
         name='solutions'),
     url(r'^(?P<pk>\w{16})/vote', VoteOnSolution.as_view(),
         name='vote_on_solution'),
+    url(r'^solution-comment', SolutionCommentAPI.as_view(),
+        name='solution_comment'),
 ]

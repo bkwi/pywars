@@ -1,6 +1,15 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
+
+{% block header_big %}
+Solutions
+{% endblock %}
+
+{% block header_small %}
+vote and comment!
+{% endblock %}
+
 {% block extra_styles %}
 <link rel="stylesheet" href="{% static 'challenges/css/highlightjs_default.css' %}">
 {% endblock %}
@@ -26,4 +35,7 @@
 </script>
 
 <script src="{% static 'challenges/js/vote.js' %}"></script>
+
+{% include 'challenges/_solution_comment_template.html' %}
+
 {% endblock %}

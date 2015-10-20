@@ -4,13 +4,14 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.http import JsonResponse
 
-from .models import Challenge, Solution, Vote
+from .models import Challenge, Solution, Vote, SolutionComment
 from .forms import ChallengeForm, SolutionForm
 
 from braces.views import LoginRequiredMixin
 
 import pickle
 import base64
+import json
 
 
 class ChallengeList(LoginRequiredMixin, ListView):
@@ -90,3 +91,37 @@ class VoteOnSolution(LoginRequiredMixin, View):
         solution.votes_count += 1
         solution.save()
         return JsonResponse({'ok': True, 'new_value': solution.votes_count})
+
+
+class SolutionCommentAPI(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        data = json.loads(request.GET.get('data', {}))
+        solution_id = data.get('solutionId')
+        solution = Solution.objects.get(id=solution_id)
+        comments_list = solution.comments_list()
+
+        return JsonResponse({'ok': True,
+                             'comments': comments_list})
+
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.POST.get('data', {}))
+        comment_body = data.get('body')
+        solution_id = data.get('solutionId')
+        if not solution_id and user_id:
+            return JsonResponse({'ok': False})
+
+        solution = Solution.objects.get(id=solution_id)
+        comment = SolutionComment(solution=solution,
+                                  author=request.user,
+                                  body=comment_body)
+        comment.save()
+        data = {'commentId': comment.id,
+                'author': comment.author.name,
+                'createdAt': comment.created_at.__str__()[:16],
+                'avatarUrl': comment.author.avatar_url(),
+                'body': comment.body}
+
+        # data should be returned as one-element list
+        return JsonResponse({'ok': True, 'comments': [data]})
+

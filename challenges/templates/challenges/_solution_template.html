@@ -1,21 +1,15 @@
-{% if forloop.first %}
-  <div class="panel panel-primary">
-{% else %}
-  <div class="panel panel-default">
-{% endif %}
-
-  <div class="panel-heading">
-    author: {{ solution.author.name }}
-    <span class="pull-right">
-      <button class="btn btn-xs btn-default" type="button">
-          Votes <span solution-id="{{ solution.id }}" class="badge">{{ solution.votes_count }}</span>
-      </button>
-      <button class="btn btn-xs btn-default js_vote_up" solution-id="{{ solution.id }}" type="button">
-          Vote up!
-        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-      </button>
-    </span>
-  </div>
+<div class="box box-widget">
+  <div class='box-header with-border'>
+    <div class='user-block'>
+        <img class='img-circle' src='{{ solution.author.avatar_url }}' alt='user image'>
+      <span class='username'><a href="#">{{ solution.author.name }}</a></span>
+      <span class='description'>Added {{ solution.created_at|date:"d M Y, H:i" }}</span>
+    </div><!-- /.user-block -->
+    <div class='box-tools'>
+    </div><!-- /.box-tools -->
+  </div><!-- /.box-header -->
+  <div class='box-body'>
+    <!-- post text -->
 
   <div class="panel-body">
     <pre>
@@ -25,4 +19,42 @@
     </pre>
   </div>
 
-</div>
+    <!-- Social sharing buttons -->
+    <button class='btn btn-default btn-xs js_vote_up' solution-id="{{ solution.id }}"><i class='fa fa-thumbs-o-up'></i> Like</button>
+    <span class='pull-right text-muted'>
+        <span solution-id="{{ solution.id }}">{{ solution.votes_count }}</span> likes
+    </span>
+  </div><!-- /.box-body -->
+
+  <div class='box-footer box-comments'>
+
+ <div class="box collapsed-box">
+   <div class="box-header with-border">
+     <h4 class="box-title">2 comments</h3>
+     <div class="box-tools pull-right">
+       <button class="btn btn-box-tool js_show_comments" solution-id="{{ solution.id }}" data-widget="collapse"><i class="fa fa-plus"></i></button>
+     </div><!-- /.box-tools -->
+   </div><!-- /.box-header -->
+   <div class="box-body">
+
+<div id="comments-list-{{ solution.id }}">
+
+
+</div><!-- /.comments-list -->
+
+
+
+    <div class="input-group">
+      <input class="form-control" type="textarea" solution-id="{{ solution.id }}" placeholder="Type message...">
+      <div class="input-group-btn js_add_comment" solution-id="{{solution.id}}">
+        <button class="btn btn-success"><i class="fa fa-plus"></i></button>
+      </div>
+    </div>
+
+
+        </div><!-- /.box-body -->
+      </div><!-- /.box -->
+
+
+  </div><!-- /.box-footer -->
+</div><!-- /.box -->

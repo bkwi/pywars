@@ -36,6 +36,17 @@ class Solution(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                related_name='solutions', null=False)
 
+    def comments_list(self):
+        comments = []
+        for c in self.comments.all().order_by('created_at'):
+            author = c.author
+            d.append({'commentId': c.id,
+                      'author': author.name,
+                      'createdAt': c.created_at.__str__()[:16],
+                      'avatarUrl': author.avatar_url(),
+                      'body': c.body})
+        return comments
+
 
 class Vote(models.Model):
 
@@ -43,4 +54,16 @@ class Vote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     solution = models.ForeignKey(Solution, related_name='votes', null=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        return "for {} by {}".format(self.solution.id, self.user.id)
+
+
+class SolutionComment(models.Model):
+
+    id = models.CharField(primary_key=True, default=_gen_id, max_length=16)
+    created_at = models.DateTimeField(auto_now_add=True)
+    solution = models.ForeignKey(Solution, related_name='comments', null=False)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    body = models.TextField()
 
