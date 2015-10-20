@@ -73,7 +73,7 @@ class ChallengeSolutions(LoginRequiredMixin, ListView):
 
         if self.request.user.already_solved_challenge(challenge):
             solutions = Solution.objects.filter(
-                    challenge_id=challenge.id).order_by('-votes_count')
+                    challenge_id=challenge.id).order_by('-votes_count').select_related()
 
         return {'solutions': solutions }
 

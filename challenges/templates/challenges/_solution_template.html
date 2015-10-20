@@ -30,7 +30,9 @@
 
  <div class="box collapsed-box">
    <div class="box-header with-border">
-     <h4 class="box-title">2 comments</h3>
+     <h4 class="box-title">
+    <span class="js_comment_count_{{ solution.id }}">{{ solution.comments.count }}</span> comments
+     </h4>
      <div class="box-tools pull-right">
        <button class="btn btn-box-tool js_show_comments" solution-id="{{ solution.id }}" data-widget="collapse"><i class="fa fa-plus"></i></button>
      </div><!-- /.box-tools -->

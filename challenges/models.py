@@ -40,11 +40,11 @@ class Solution(models.Model):
         comments = []
         for c in self.comments.all().order_by('created_at'):
             author = c.author
-            d.append({'commentId': c.id,
-                      'author': author.name,
-                      'createdAt': c.created_at.__str__()[:16],
-                      'avatarUrl': author.avatar_url(),
-                      'body': c.body})
+            comments.append({'commentId': c.id,
+                             'author': author.name,
+                             'createdAt': c.created_at.__str__()[:16],
+                             'avatarUrl': author.avatar_url(),
+                             'body': c.body})
         return comments
 
 

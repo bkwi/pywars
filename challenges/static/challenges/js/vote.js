@@ -59,6 +59,8 @@ $(document).ready(function() {
         if (data.ok) {
           $('input[solution-id=' + solutionId  + ']').val('');
           renderElements(data, solutionId);
+          counterValue = $('.js_comment_count_' + solutionId);
+          counterValue.html(parseInt(counterValue.html()) + 1);
         }
         else {
             alert('Something went wrong, sorry');
