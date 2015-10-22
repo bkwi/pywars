@@ -50,6 +50,10 @@ class RegisterUserView(CreateView):
         return HttpResponseRedirect('/main/dashboard')
 
 
+class ForgotPassword(TemplateView):
+    template_name = 'users/forgot_password.html'
+
+
 class UserProfile(LoginRequiredMixin, UpdateView):
     """
     INFO: hacked a bit, so that it works with two different forms
