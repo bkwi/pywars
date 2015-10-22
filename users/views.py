@@ -38,6 +38,7 @@ class RegisterUserView(CreateView):
     model = AppUser
     form_class  = RegisterUserForm
     success_url = '/main/dashboard'
+    template_name = 'users/register.html'
 
     def form_valid(self, form):
         new_user = form.save()
