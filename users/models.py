@@ -1,10 +1,13 @@
 from django.db import models
+from django.conf import settings
+
+import uuid
 
 from django.contrib.auth.models import (
         BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
 
-from main.utils import _gen_id
+from main.utils import _gen_id, send_email
 
 class AppUserManager(BaseUserManager):
 
@@ -52,6 +55,8 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     points = models.PositiveIntegerField(default=0)
+    password_reset_token = models.CharField(default=None, max_length=32,
+                                            null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', ]
@@ -79,4 +84,13 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
             if s.challenge_id == challenge.id:
                 return True
         return False
+
+    def send_password_reset_email(self):
+        self.password_reset_token = uuid.uuid4().hex
+        self.save()
+        reset_link = "{}/user/reset-password/{}/{}".format(
+                     settings.APP_HOST, self.id, self.password_reset_token)
+        send_email(email_address=self.email,
+                   body="Click here to reset your password: %s" % reset_link,
+                   subject="[PyWars] Password Reset Link")
 
