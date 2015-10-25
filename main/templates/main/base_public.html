@@ -36,6 +36,9 @@
   <script src="{% static 'main/js/jquery-2.1.4.min.js' %}"></script>
   <!-- Bootstrap 3.3.5 -->
   <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+  <script>
+    var csrfToken = '{{ csrf_token }}';
+  </script>
 
   {% block extra_scripts %}
   {% endblock %}

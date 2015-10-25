@@ -1,9 +1,12 @@
-from django.views.generic import FormView, View, CreateView, UpdateView, TemplateView
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
-from django.http import HttpResponseRedirect
+from django.views.generic import (FormView, View, CreateView, UpdateView,
+                                  TemplateView)
+from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm,
+                                       SetPasswordForm)
+from django.contrib.auth import (login, logout, authenticate,
+                                 update_session_auth_hash)
+from django.http import HttpResponseRedirect, JsonResponse
 from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 from braces.views import LoginRequiredMixin
 
@@ -52,6 +55,38 @@ class RegisterUserView(CreateView):
 
 class ForgotPassword(TemplateView):
     template_name = 'users/forgot_password.html'
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email')
+        user = AppUser.objects.filter(email=email).first()
+        if user:
+            user.send_password_reset_email()
+        return JsonResponse({'ok': True})
+
+
+class ResetPassword(FormView):
+    template_name = 'users/reset_password.html'
+    form_class = SetPasswordForm
+    success_url = '/user/login/'
+
+    def get(self, request, *args, **kwargs):
+        token = kwargs.get('token')
+        user = AppUser.objects.filter(pk=kwargs.get('user_id')).first()
+        if user and user.password_reset_token == token:
+            return super(ResetPassword, self).get(request, *args, **kwargs)
+        return render(request, self.template_name, {'link_invalid': True})
+
+    def get_form(self):
+        user = AppUser.objects.filter(pk=self.kwargs.get('user_id')).first()
+        form_data = self.request.POST
+        if self.request.method == 'GET':
+            form_data = None
+        return self.form_class(user=user, data=form_data)
+
+    def form_valid(self, form):
+        form.user.password_reset_token = None
+        form.save()
+        return super(ResetPassword, self).form_valid(form)
 
 
 class UserProfile(LoginRequiredMixin, UpdateView):
