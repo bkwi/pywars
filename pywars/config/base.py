@@ -72,6 +72,45 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pywars.wsgi.application'
 
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+        'verbose': {
+            'format': '[%(asctime)s] %(levelname)s  %(module)s %(name)s[%(process)d] %(thread)d  %(message)s'
+        },
+    },
+    'handlers': {
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR + "/logfile",
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'pywars': {
+            'handlers': ['console', 'logfile'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+        'tornado': {
+            'handlers': ['console', 'logfile'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -84,7 +123,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+#USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

@@ -7,7 +7,7 @@ from django.contrib.auth.models import (
         BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
 
-from main.utils import _gen_id, send_email
+from main.utils import _gen_id, send_email, logger
 
 class AppUserManager(BaseUserManager):
 
@@ -88,9 +88,12 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
     def send_password_reset_email(self):
         self.password_reset_token = uuid.uuid4().hex
         self.save()
+        logger.info("User %s requested password reset link. Token: %s...",
+                    self, self.password_reset_token[:10])
         reset_link = "{}/user/reset-password/{}/{}".format(
                      settings.APP_HOST, self.id, self.password_reset_token)
         send_email(email_address=self.email,
                    body="Click here to reset your password: %s" % reset_link,
                    subject="[PyWars] Password Reset Link")
+
 

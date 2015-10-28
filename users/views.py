@@ -12,7 +12,7 @@ from braces.views import LoginRequiredMixin
 
 from .models import AppUser
 from .forms import RegisterUserForm, UserSettingsForm
-from main.utils import send_email
+from main.utils import send_email, logger
 
 
 class LoginView(FormView):
@@ -26,6 +26,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         login(self.request, form.get_user())
+        logger.info('User %s signed in', self.request.user)
         return HttpResponseRedirect(
                 self.request.GET.get('next', '/main/dashboard'))
 
@@ -49,6 +50,7 @@ class RegisterUserView(CreateView):
                    body=str(form), subject='PyWars - New user')
         new_user = authenticate(username=self.request.POST['email'],
                                 password=self.request.POST['password'])
+        logger.info('New user registered: %s', new_user)
         login(self.request, new_user)
         return HttpResponseRedirect('/main/dashboard')
 

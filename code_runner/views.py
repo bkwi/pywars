@@ -4,19 +4,19 @@ import base64
 import os
 import sys
 import hashlib
+import uuid
 from string import Template
 
 
 import tornado.ioloop
 from multiprocessing.pool import ThreadPool
-from utils import test_code_template, validation_code, output_separator
+from utils import test_code_template, validation_code, output_separator, logger
 from dockerizer import DockerContainer
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pywars.settings')
 
 from django.conf import settings
-
 
 _workers = ThreadPool(10)
 
@@ -31,6 +31,9 @@ class WebSocketResponse(object):
 
     def __init__(self, msg, callback_socket):
         self.msg = msg
+        self.msg_id = uuid.uuid4().hex
+        logger.debug("Websocket message - id: %s, body: %s",
+                     self.msg_id, msg)
         self.callback_socket = callback_socket
         self.perform()
 
@@ -40,6 +43,8 @@ class WebSocketResponse(object):
     def send_response(self):
         if self.response is None:
             raise WebSocketResponseException('No response defined')
+        logger.debug('Websocket response to %s: %s', self.msg_id,
+                     self.response)
         self.callback_socket.write_message(self.response)
 
 
@@ -85,12 +90,14 @@ class TestSolution(WebSocketResponse):
             result = dc.run()
 
         if not result.get('valid'):
+            logger.debug("[%s] Code not valid", self.msg_id)
             return result
+        logger.debug("[%s] Code valid", self.msg_id)
 
         code = Template(test_code_template)
         code = code.substitute(solution=solution,
-                        test_statements=tests,
-                        separator=output_separator)
+                               test_statements=tests,
+                               separator=output_separator)
 
         with open('{}/{}.py'.format(path, fname) , 'w') as f:
             f.write(code)
@@ -103,3 +110,4 @@ class TestSolution(WebSocketResponse):
             result['solution_token'] = token
 
         return result
+
