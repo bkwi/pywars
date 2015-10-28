@@ -12,12 +12,11 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from logentries import LogentriesHandler
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..'))
 
-
-PUSHER_CHANNEL = 'private-pywars-channel-{}'
 
 AUTH_USER_MODEL = 'users.AppUser'
 LOGIN_URL = '/user/login/'
@@ -99,14 +98,18 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
+        'logentries_handler': {
+            'token': 'TOKEN',
+            'class': 'logentries.LogentriesHandler'
+        },
     },
     'loggers': {
         'pywars': {
-            'handlers': ['console', 'logfile'],
+            'handlers': ['console', 'logfile', 'logentries_handler'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },
         'tornado': {
-            'handlers': ['console', 'logfile'],
+            'handlers': ['console', 'logfile', 'logentries_handler'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },
     },
