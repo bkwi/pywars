@@ -77,7 +77,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
         return "https://robohash.org/{}.png".format(self.name)
 
     def __unicode__(self):
-        return self.email
+        return 'User {} ({})'.format(self.id, self.email)
 
     def already_solved_challenge(self, challenge):
         for s in self.solutions.all():
@@ -88,7 +88,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
     def send_password_reset_email(self):
         self.password_reset_token = uuid.uuid4().hex
         self.save()
-        logger.info("User %s requested password reset link. Token: %s...",
+        logger.info('%s requested password reset link. Token: %s...',
                     self, self.password_reset_token[:10])
         reset_link = "{}/user/reset-password/{}/{}".format(
                      settings.APP_HOST, self.id, self.password_reset_token)

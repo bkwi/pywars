@@ -6,6 +6,7 @@ from django.http import JsonResponse
 
 from .models import Challenge, Solution, Vote, SolutionComment
 from .forms import ChallengeForm, SolutionForm
+from main.utils import logger
 
 from braces.views import LoginRequiredMixin
 
@@ -55,6 +56,8 @@ class ChallengeSolve(LoginRequiredMixin, FormView):
             user.points += challenge_solved.points
             user.save()
         solution.save()
+        logger.info('%s solved challenge %s. Solution id: %s',
+                    user, challenge_solved.id, solution.id)
         return redirect(self.success_url)
 
 
@@ -90,6 +93,7 @@ class VoteOnSolution(LoginRequiredMixin, View):
 
         solution.votes_count += 1
         solution.save()
+        logger.info('%s voted on solution %s', request.user, solution.id)
         return JsonResponse({'ok': True, 'new_value': solution.votes_count})
 
 
@@ -121,6 +125,9 @@ class SolutionCommentAPI(LoginRequiredMixin, View):
                 'createdAt': comment.created_at.__str__()[:16],
                 'avatarUrl': comment.author.avatar_url(),
                 'body': comment.body}
+
+        logger.info('%s added a comment to solution %s. Comment id: %s',
+                    request.user, solution_id, comment.id)
 
         # data should be returned as one-element list
         return JsonResponse({'ok': True, 'comments': [data]})

@@ -26,7 +26,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         login(self.request, form.get_user())
-        logger.info('User %s signed in', self.request.user)
+        logger.info('%s signed in', self.request.user)
         return HttpResponseRedirect(
                 self.request.GET.get('next', '/main/dashboard'))
 
