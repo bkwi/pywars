@@ -35,7 +35,7 @@ $(document).ready(function() {
       }
     }
 
-    var ws = new WebSocket(websocketUrl);
+    var ws = new WebSocket(websocketUrl + '?' + userId);
 
     ws.onopen = function() {
       data = {
@@ -48,7 +48,7 @@ $(document).ready(function() {
 
     ws.onmessage = function (evt) {
       try {
-        // console.log(evt.data);
+        console.log(evt.data);
         data = jQuery.parseJSON(evt.data);
         handleData(data);
       }
