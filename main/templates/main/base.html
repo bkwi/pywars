@@ -20,6 +20,7 @@
           apply the skin class to the body tag so the changes take effect.
     -->
     <link rel="stylesheet" href="{% static 'main/css/skin-blue.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
 
     {% block extra_styles %}
     {% endblock %}
@@ -62,7 +63,7 @@
               <li class="dropdown notifications-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning js_notifications_count hidden">17</span>
+                  <span class="label label-warning js_notifications_count {% if not new_notifications_count %} hidden {% endif %}">{{ new_notifications_count }}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="header">Notifications</li>
@@ -79,8 +80,6 @@
                   <li class="footer"><a href="#">View all</a></li>
                 </ul>
               </li>
-
-
 
               <!-- Tasks Menu -->
 

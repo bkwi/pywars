@@ -12,7 +12,8 @@ class Notification(models.Model):
     notified_user = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       related_name='notifications')
     about = models.CharField(max_length=100)
-    active = models.BooleanField()
+    is_new = models.BooleanField() # until used displays dropdown list
+    active = models.BooleanField() # until clicked
     url_params = models.TextField()
 
     def url(self):

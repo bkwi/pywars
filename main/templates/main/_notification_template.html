@@ -3,14 +3,10 @@
 <script type="text/template" class="js_notification_template">
 {% endif %}
 
-  <li>
-    {% if notification %}
-    <a href="{{ notification.url }}">
-      <i class="fa fa-bell-o text-aqua"></i> {{ notification.body }}
-    {% else %}
-    <a href="__notification_url__">
-      <i class="fa fa-bell-o text-aqua"></i> __notification_body__
-    {% endif %}
+  <li id="{{notification.id|default:'__notification_id__'}}" class="js_notification {% if notification.active %} active-notification {% endif %}">
+    <a href="{{ notification.url|default:'__notification_url__' }}">
+      <i class="fa fa-bell-o text-aqua"></i>
+      {{ notification.body|default:'__notification_body__' }}
     </a>
   </li>
 
