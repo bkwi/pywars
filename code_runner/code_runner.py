@@ -4,6 +4,7 @@ import tornado.websocket
 import tornado.escape
 
 from router import Router
+from utils import logger
 
 connections = {
     # 'user_id': [conn1, conn2, ...]
@@ -15,7 +16,6 @@ class PyWarsWebsocket(tornado.websocket.WebSocketHandler):
         user_id = self.request.query
         connections.setdefault(user_id, [])
         connections.get(user_id).append(self)
-        print "CONNECTIONS", connections
 
     @tornado.web.asynchronous
     def on_message(self, message):
@@ -33,20 +33,23 @@ class PyWarsWebsocket(tornado.websocket.WebSocketHandler):
 class WebsocketApi(tornado.web.RequestHandler):
 
     def get(self):
-        self.write("Hello, world")
+        self.write("api")
 
     def post(self):
-        data = tornado.escape.json_decode(self.request.body)
+        try:
+            data = tornado.escape.json_decode(self.request.body)
+        except ValueError as e:
+            raise tornado.web.HTTPError(400, reason='Invalid JSON')
         user_id = data.get('user_id')
         if user_id:
             for conn in connections.get(user_id, []):
-                conn.write_message({'abc': 'woohoo'})
+                conn.write_message(data)
         self.write('ok')
 
 
 application = tornado.web.Application([
     (r"/websocket", PyWarsWebsocket),
-    (r"/test", WebsocketApi)
+    (r"/notify", WebsocketApi)
 ])
 
 if __name__ == "__main__":

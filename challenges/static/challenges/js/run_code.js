@@ -7,6 +7,24 @@ $(document).ready(function() {
     var runCodeButton = $('#run_code');
     var tokenField = $('#id_solution_token');
 
+    function renderNotification(data) {
+      notifications = $('.js_notifications_list');
+      count = $('.js_notifications_count');
+      notification = $('.js_notification_template').first().html()
+                       .replace('__notification_body__', data.text)
+                       .replace('__notification_url__', data.url);
+      notifications.html(notification + notifications.html());
+
+      if (count.hasClass('hidden')) {
+        count.html('1');
+        count.removeClass('hidden');
+      }
+      else {
+        count.html(parseInt(count.html(), 10) + 1)
+      }
+
+    }
+
     function handleData (data) {
       if (data.action == 'test_result') {
         if (data.passed) {
@@ -32,6 +50,9 @@ $(document).ready(function() {
       else if (data.action == 'test_queued') {
         var spinnerCode = '<i class="fa fa-refresh fa-spin"></i>';
         runCodeButton.html(spinnerCode + ' Testing solution');
+      }
+      else if (data.action == 'notification') {
+        renderNotification(data);
       }
     }
 
@@ -66,6 +87,6 @@ $(document).ready(function() {
         userId: userId,
         tests: tests
       });
-      ws.send(body)
+      ws.send(body);
     })
 })

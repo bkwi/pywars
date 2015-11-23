@@ -59,6 +59,29 @@
 
               <!-- Notifications Menu -->
 
+              <li class="dropdown notifications-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bell-o"></i>
+                  <span class="label label-warning js_notifications_count hidden">17</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">Notifications</li>
+                  <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu js_notifications_list">
+
+                {% for notification in notifications %}
+                  {% include 'main/_notification_template.html' %}
+                {% endfor %}
+
+                    </ul>
+                  </li>
+                  <li class="footer"><a href="#">View all</a></li>
+                </ul>
+              </li>
+
+
+
               <!-- Tasks Menu -->
 
               <!-- User Account Menu -->
@@ -291,6 +314,8 @@
   </div>
 </div>
 
+  {% include 'main/_notification_template.html' %}
+
     <!-- REQUIRED JS SCRIPTS -->
 
     <!-- jQuery 2.1.4 -->
@@ -302,8 +327,14 @@
 
     <script src="{% static 'main/js/main.js' %}"></script>
 
+    <script src="{% static 'challenges/js/run_code.js' %}"></script>
+
     <script type="text/javascript">
       var csrfToken = '{{ csrf_token }}';
+      var websocketUrl = '{{ websocket_url }}';
+      var userId = '{{ request.user.id }}';
+      // TODO - var below is only needed in solve view
+      var challengeId = 'X';
     </script>
 
     {% block extra_scripts %}

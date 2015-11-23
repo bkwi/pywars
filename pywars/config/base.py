@@ -20,6 +20,7 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..')
 
 AUTH_USER_MODEL = 'users.AppUser'
 LOGIN_URL = '/user/login/'
+NOTIFICATION_API_URL = 'http://127.0.0.1:8083/notify'
 
 # Application definition
 
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'main.context_processors.common_context'
             ],
         },
     },

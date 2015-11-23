@@ -1,0 +1,19 @@
+
+{% if not notification %}
+<script type="text/template" class="js_notification_template">
+{% endif %}
+
+  <li>
+    {% if notification %}
+    <a href="{{ notification.url }}">
+      <i class="fa fa-bell-o text-aqua"></i> {{ notification.body }}
+    {% else %}
+    <a href="__notification_url__">
+      <i class="fa fa-bell-o text-aqua"></i> __notification_body__
+    {% endif %}
+    </a>
+  </li>
+
+{% if not notification %}
+</script>
+{% endif %}
