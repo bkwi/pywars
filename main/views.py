@@ -57,6 +57,12 @@ class HallOfFame(LoginRequiredMixin, TemplateView):
 
 class Notifications(LoginRequiredMixin, View):
 
+    def get(self, request, *args, **kwargs):
+        notifications = Notification.objects.filter(
+                notified_user=request.user).order_by('-created_at')
+        return render(request, 'main/notifications.html',
+                      {'notifications': notifications})
+
     def post(self, request, *args, **kwargs):
         user = request.user
 
@@ -67,12 +73,16 @@ class Notifications(LoginRequiredMixin, View):
         if action == 'dismiss':
             Notification.objects.filter(
                     notified_user=user).update(is_new=False)
+        elif action == 'all_read':
+            Notification.objects.filter(
+                    notified_user=user).update(active=False)
         elif action == 'deactivate':
             notification_id = request.GET.get('id')
             if not notification_id:
                 return HttpResponseBadRequest("Missing parameter: 'id'")
             Notification.objects.filter(
                     id=notification_id).update(active=False)
+        else:
+            return HttpResponseBadRequest('Unknown action:', action)
 
         return JsonResponse({'ok': True})
-

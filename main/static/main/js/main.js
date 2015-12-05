@@ -4,7 +4,7 @@ $(document).ready(function() {
       var notificationsCounter = $('.js_notifications_count')
       if (notificationsCounter.hasClass('hidden')) { return; }
 
-      $.post('/main/notification?action=dismiss', {
+      $.post('/main/notifications?action=dismiss', {
           csrfmiddlewaretoken: csrfToken
         })
         .done(function(data) {
@@ -19,7 +19,7 @@ $(document).ready(function() {
       var notification = $(this);
       var notificationId = $(this).attr('id');
 
-      $.post('/main/notification?action=deactivate&id=' + notificationId, {
+      $.post('/main/notifications?action=deactivate&id=' + notificationId, {
           csrfmiddlewaretoken: csrfToken
         })
         .done(function(data) {

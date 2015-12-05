@@ -12,5 +12,5 @@ urlpatterns = patterns('',
     url(r'^feedback', FeedbackView.as_view(), name='feedback'),
     url(r'^dashboard/', DashboardView.as_view(), name='dashboard'),
     url(r'^hall-of-fame/', HallOfFame.as_view(), name='hall_of_fame'),
-    url(r'^notification', Notifications.as_view(), name='dismiss'),
+    url(r'^notifications', Notifications.as_view(), name='notifications'),
 )
