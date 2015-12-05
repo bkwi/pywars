@@ -55,7 +55,7 @@ class HallOfFame(LoginRequiredMixin, TemplateView):
         return context
 
 
-class Notifications(View):
+class Notifications(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         user = request.user

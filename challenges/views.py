@@ -128,7 +128,7 @@ class SolutionCommentAPI(LoginRequiredMixin, View):
         # create notification
         params = {'challenge_id': solution.challenge_id,
                   'solution_id': solution_id,
-                  'comment_author_name': comment.author.id,
+                  'comment_author_name': comment.author.name,
                   'comment_id': comment.id}
         notification = Notification(notified_user=solution.author,
                                    about='comment',

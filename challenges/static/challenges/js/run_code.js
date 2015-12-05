@@ -69,7 +69,7 @@ $(document).ready(function() {
 
     ws.onmessage = function (evt) {
       try {
-        console.log(evt.data);
+        // console.log(evt.data);
         data = jQuery.parseJSON(evt.data);
         handleData(data);
       }
