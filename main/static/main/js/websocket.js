@@ -62,7 +62,7 @@ $(document).ready(function() {
       data = {
         action: 'init',
         user: userId,
-        challenge: challengeId
+        // challenge: challengeId
       }
       ws.send(JSON.stringify(data));
     };

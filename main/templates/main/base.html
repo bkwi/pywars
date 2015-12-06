@@ -326,14 +326,14 @@
 
     <script src="{% static 'main/js/main.js' %}"></script>
 
-    <script src="{% static 'challenges/js/run_code.js' %}"></script>
+    <script src="{% static 'main/js/websocket.js' %}"></script>
 
     <script type="text/javascript">
       var csrfToken = '{{ csrf_token }}';
       var websocketUrl = '{{ websocket_url }}';
       var userId = '{{ request.user.id }}';
       // TODO - var below is only needed in solve view
-      var challengeId = 'X';
+      // var challengeId = 'X';
     </script>
 
     {% block extra_scripts %}

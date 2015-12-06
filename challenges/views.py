@@ -131,9 +131,9 @@ class SolutionCommentAPI(LoginRequiredMixin, View):
                   'comment_author_name': comment.author.name,
                   'comment_id': comment.id}
         notification = Notification(notified_user=solution.author,
-                                   about='comment',
-                                   is_new=True, active=True,
-                                   url_params=json.dumps(params))
+                                    about='comment',
+                                    is_new=True, active=True,
+                                    url_params=json.dumps(params))
         notification.save()
         logger.info('Notification %s created' % notification.id)
 
@@ -153,4 +153,3 @@ class SolutionCommentAPI(LoginRequiredMixin, View):
 
         # data should be returned as one-element list
         return JsonResponse({'ok': True, 'comments': [data]})
-
