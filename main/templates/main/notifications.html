@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block header_big %}
+Notifications
+{% endblock %}
+
+{% block header_small %}
+{% endblock %}
+
+{% block main_content %}
+  <p>
+     <a id="mark_all_as_read" class="btn btn-primary btn-md" role="button">Mark all as read</a>
+  </p>
+
+    {% for n in notifications %}
+
+<a id="{{ n.id }}" href="{{ n.url }}" type="button"
+    class="js_notification btn btn-default btn-block {% if n.active %} active-notification {% endif %}">
+    {{ n.body }}
+</a>
+
+    {% empty %}
+
+    No notifications found.
+
+    {% endfor %}
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'main/js/notifications.js' %}"></script>
+{% endblock %}
+

@@ -6,9 +6,9 @@ from views import Init, TestSolution
 class Router(object):
 
     routes = {
-            'init': Init,
-            'test_solution': TestSolution
-            }
+        'init': Init,
+        'test_solution': TestSolution
+    }
 
     @classmethod
     def route(cls, message, callback_socket):

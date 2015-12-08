@@ -7,12 +7,14 @@ from django.http import JsonResponse
 from .models import Challenge, Solution, Vote, SolutionComment
 from .forms import ChallengeForm, SolutionForm
 from main.utils import logger
+from main.models import Notification
 
 from braces.views import LoginRequiredMixin
 
 import pickle
 import base64
 import json
+import requests
 
 
 class ChallengeList(LoginRequiredMixin, ListView):
@@ -75,8 +77,8 @@ class ChallengeSolutions(LoginRequiredMixin, ListView):
         solutions = []
 
         if self.request.user.already_solved_challenge(challenge):
-            solutions = Solution.objects.filter(
-                    challenge_id=challenge.id).order_by('-votes_count').select_related()
+            solutions = Solution.objects.filter(challenge_id=challenge.id) \
+                            .order_by('-votes_count').select_related()
 
         return {'solutions': solutions }
 
@@ -120,15 +122,34 @@ class SolutionCommentAPI(LoginRequiredMixin, View):
                                   author=request.user,
                                   body=comment_body)
         comment.save()
+        logger.info('%s added a comment to solution %s. Comment id: %s',
+                    request.user, solution_id, comment.id)
+
+        # create notification
+        params = {'challenge_id': solution.challenge_id,
+                  'solution_id': solution_id,
+                  'comment_author_name': comment.author.name,
+                  'comment_id': comment.id}
+        notification = Notification(notified_user=solution.author,
+                                    about='comment',
+                                    is_new=True, active=True,
+                                    url_params=json.dumps(params))
+        notification.save()
+        logger.info('Notification %s created' % notification.id)
+
+        # TODO: move to async worker
+        requests.post(settings.NOTIFICATION_API_URL,
+                      json={'user_id': solution.author.id,
+                            'text': '{} commented on your solution'.format(
+                                            comment.author.name),
+                            'url': notification.url(),
+                            'action': 'notification'})
+
         data = {'commentId': comment.id,
                 'author': comment.author.name,
                 'createdAt': comment.created_at.__str__()[:16],
                 'avatarUrl': comment.author.avatar_url(),
                 'body': comment.body}
 
-        logger.info('%s added a comment to solution %s. Comment id: %s',
-                    request.user, solution_id, comment.id)
-
         # data should be returned as one-element list
         return JsonResponse({'ok': True, 'comments': [data]})
-

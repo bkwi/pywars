@@ -1,0 +1,17 @@
+
+{% if not notification %}
+<script type="text/template" class="js_notification_template">
+{% endif %}
+
+  <li id="{{notification.id|default:'__notification_id__'}}"
+     {# notification.active can also be None when received by websocket #}
+     class="js_notification {% if notification.active != False %} active-notification {% endif %}">
+    <a href="{{ notification.url|default:'__notification_url__' }}">
+      <i class="fa fa-bell-o text-aqua"></i>
+      {{ notification.body|default:'__notification_body__' }}
+    </a>
+  </li>
+
+{% if not notification %}
+</script>
+{% endif %}
