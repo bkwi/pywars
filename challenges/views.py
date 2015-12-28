@@ -6,6 +6,7 @@ from django.http import JsonResponse
 
 from .models import Challenge, Solution, Vote, SolutionComment
 from .forms import ChallengeForm, SolutionForm
+from .celery import run_and_notify
 from main.utils import logger
 from main.models import Notification
 
@@ -81,6 +82,16 @@ class ChallengeSolutions(LoginRequiredMixin, ListView):
                             .order_by('-votes_count').select_related()
 
         return {'solutions': solutions }
+
+
+class RunCode(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.POST.get('data', {}))
+        if not data:
+            return JsonResponse({'ok': False})
+        run_and_notify.delay(data)
+        return JsonResponse({'ok': True})
 
 
 class VoteOnSolution(LoginRequiredMixin, View):

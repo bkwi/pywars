@@ -5,9 +5,6 @@ import re
 import os
 import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pywars.settings')
-
 from django.conf import settings
 
 from utils import output_separator
@@ -33,7 +30,7 @@ class DockerContainer(object):
                 name=self.cid,
                 host_config=self.client.create_host_config(
                     binds={settings.TEMPFILES_PATH: {'bind': '/mnt/temp/',
-                                                     'mode': 'rw'}}))
+                                                     'mode': 'ro'}}))
 
             self.client.start(self.cid)
             self.client.wait(self.cid)
@@ -48,4 +45,5 @@ class DockerContainer(object):
                         'action': 'test_result'}
         except Exception as e:
             # TODO
+            print e
             raise e

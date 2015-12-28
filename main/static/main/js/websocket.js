@@ -47,10 +47,6 @@ $(document).ready(function() {
           runCodeButton.html('Test my solution');
         }
       }
-      else if (data.action == 'test_queued') {
-        var spinnerCode = '<i class="fa fa-refresh fa-spin"></i>';
-        runCodeButton.html(spinnerCode + ' Testing solution');
-      }
       else if (data.action == 'notification') {
         renderNotification(data);
       }
@@ -62,7 +58,6 @@ $(document).ready(function() {
       data = {
         action: 'init',
         user: userId,
-        // challenge: challengeId
       }
       ws.send(JSON.stringify(data));
     };
@@ -79,14 +74,4 @@ $(document).ready(function() {
       }
     };
 
-    $('#run_code').click(function() {
-      var body = JSON.stringify({
-        action: 'test_solution',
-        solution: editor.getValue(),
-        challengeId: challengeId,
-        userId: userId,
-        tests: tests
-      });
-      ws.send(body);
-    })
 })
