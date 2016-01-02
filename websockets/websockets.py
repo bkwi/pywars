@@ -10,7 +10,7 @@ connections = {
     # 'user_id': [conn1, conn2, ...]
 }
 
-class PyWarsWebsocket(tornado.websocket.WebSocketHandler):
+class WebsocketConnection(tornado.websocket.WebSocketHandler):
 
     def open(self):
         user_id = self.request.query
@@ -48,7 +48,7 @@ class WebsocketApi(tornado.web.RequestHandler):
 
 
 application = tornado.web.Application([
-    (r"/websocket", PyWarsWebsocket),
+    (r"/websocket", WebsocketConnection),
     (r"/notify", WebsocketApi)
 ])
 

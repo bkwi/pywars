@@ -50,6 +50,7 @@ Challenge
 <script src="{% static 'challenges/js/codemirror.js' %}"></script>
 <script src="{% static 'challenges/js/codemirror_python.js' %}"></script>
 <script src="{% static 'challenges/js/codemirror_matchbrackets.js' %}"></script>
+<script src="{% static 'challenges/js/solve.js' %}"></script>
 
 <script type="text/javascript">
 
@@ -65,7 +66,6 @@ Challenge
   var csrfToken = '{{ csrf_token }}';
   var challengeId = '{{ challenge.pk }}';
   var userId = '{{ request.user.id }}';
-  var tests = '{{ tests|escapejs }}';
   var websocketUrl = '{{ websocket_url }}';
 
 </script>

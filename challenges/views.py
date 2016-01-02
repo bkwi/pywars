@@ -6,13 +6,12 @@ from django.http import JsonResponse
 
 from .models import Challenge, Solution, Vote, SolutionComment
 from .forms import ChallengeForm, SolutionForm
+from .celery import run_and_notify
 from main.utils import logger
 from main.models import Notification
 
 from braces.views import LoginRequiredMixin
 
-import pickle
-import base64
 import json
 import requests
 
@@ -40,14 +39,8 @@ class ChallengeSolve(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ChallengeSolve, self).get_context_data(**kwargs)
-
         challenge = Challenge.objects.get(pk=self.kwargs.get('pk'))
-        tests = challenge.tests_as_list_of_strings()
-
         context['challenge'] = challenge
-        context['tests'] = base64.encodestring(pickle.dumps(tests))
-        context['websocket_url'] = settings.WEBSOCKET_URL
-
         return context
 
     def form_valid(self, form):
@@ -81,6 +74,19 @@ class ChallengeSolutions(LoginRequiredMixin, ListView):
                             .order_by('-votes_count').select_related()
 
         return {'solutions': solutions }
+
+
+class RunCode(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.POST.get('data', {}))
+        if not data:
+            return JsonResponse({'ok': False})
+        challenge = Challenge.objects.get(pk=data.get('challengeId'))
+        tests = challenge.tests_as_list_of_strings()
+        data.update({'tests': tests})
+        run_and_notify.delay(data)
+        return JsonResponse({'ok': True})
 
 
 class VoteOnSolution(LoginRequiredMixin, View):

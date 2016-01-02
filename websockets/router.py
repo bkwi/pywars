@@ -1,13 +1,12 @@
 import json
 
-from views import Init, TestSolution
+from views import Init
 
 
 class Router(object):
 
     routes = {
-        'init': Init,
-        'test_solution': TestSolution
+        'init': Init
     }
 
     @classmethod
