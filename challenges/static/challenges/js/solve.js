@@ -4,11 +4,9 @@ $(document).ready(function() {
     runCodeButton.click(function() {
 
         var body = JSON.stringify({
-            // action: 'test_solution',
             solution: editor.getValue(),
             challengeId: challengeId,
             userId: userId,
-            tests: tests
         });
 
         $.post('/challenge/run-code', {

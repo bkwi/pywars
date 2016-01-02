@@ -1,9 +1,7 @@
 from __future__ import absolute_import
 import os
 from celery import Celery, task
-import pickle
 import sys
-import base64
 import hashlib
 from string import Template
 
@@ -32,7 +30,7 @@ def run_code(data):
     challenge_id = data.get('challengeId')
     user_id = data.get('userId')
     solution = data.get('solution')
-    tests = pickle.loads(base64.decodestring(data.get('tests')))
+    tests = data.get('tests')
 
     path = settings.TEMPFILES_PATH
     fname = '{}_{}'.format(challenge_id, user_id)
