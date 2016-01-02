@@ -1,22 +1,5 @@
-import json
-import pickle
-import base64
-import os
-import sys
-import hashlib
 import uuid
-from string import Template
-
-
-import tornado.ioloop
-from multiprocessing.pool import ThreadPool
 from utils import logger
-
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pywars.settings')
-
-from django.conf import settings
 
 
 class WebSocketResponseException(Exception):

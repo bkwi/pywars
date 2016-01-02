@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'main',
     'users',
     'challenges',
-    'code_runner',
     'bootstrap3',
     'widget_tweaks',
     'debug_toolbar'
@@ -110,7 +109,7 @@ LOGGING = {
             'handlers': ['console', 'logfile', 'logentries_handler'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },
-        'tornado': {
+        'websockets': {
             'handlers': ['console', 'logfile', 'logentries_handler'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },

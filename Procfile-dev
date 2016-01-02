@@ -1,3 +1,3 @@
 web: python manage.py runserver 0.0.0.0:8000
 worker1:  celery --app=challenges.celery:app worker --loglevel=INFO
-worker: python code_runner/code_runner.py
+worker: python websockets/websockets.py

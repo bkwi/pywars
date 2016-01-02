@@ -8,5 +8,5 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pywars.settings')
 
 from django.conf import settings
 
-logger = logging.getLogger('tornado')
+logger = logging.getLogger('websockets')
 logging.config.dictConfig(settings.LOGGING)
