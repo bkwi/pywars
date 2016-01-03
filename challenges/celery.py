@@ -3,6 +3,7 @@ import os
 from celery import Celery, task
 import sys
 import hashlib
+import uuid
 from string import Template
 
 import requests
@@ -72,6 +73,10 @@ def run_code(data):
 def run_and_notify(self, data):
     result = run_code(data)
     result['user_id'] = data.get('userId')
-    requests.post(settings.NOTIFICATION_API_URL, json=result)
+    token = uuid.uuid4().hex
+    signature = hashlib.sha224(token + settings.SECRET_KEY).hexdigest()
+    headers = {'token': token, 'signature': signature}
+    requests.post(settings.NOTIFICATION_API_URL, json=result,
+                  headers=headers)
 
 

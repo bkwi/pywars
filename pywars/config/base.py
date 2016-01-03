@@ -22,6 +22,12 @@ AUTH_USER_MODEL = 'users.AppUser'
 LOGIN_URL = '/user/login/'
 NOTIFICATION_API_URL = 'http://127.0.0.1:8083/notify'
 
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+
 # Application definition
 
 INSTALLED_APPS = (

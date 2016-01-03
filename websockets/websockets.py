@@ -4,7 +4,7 @@ import tornado.websocket
 import tornado.escape
 
 from router import Router
-from utils import logger
+from utils import logger, authorize
 
 connections = {
     # 'user_id': [conn1, conn2, ...]
@@ -36,6 +36,9 @@ class WebsocketApi(tornado.web.RequestHandler):
         self.write("api")
 
     def post(self):
+        if not authorize(self.request.headers):
+            raise tornado.web.HTTPError(401)
+
         try:
             data = tornado.escape.json_decode(self.request.body)
         except ValueError as e:
@@ -53,6 +56,6 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    application.listen(8083)
+    application.listen(port=8083)
     tornado.ioloop.IOLoop.instance().start()
 
